@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Noto+Serif+KR:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="./oracle-engine.js"></script>
+<script src="./oracle-copy.js"></script>
+<script src="./oracle-compat.js"></script>
+<script src="./oracle-year.js"></script>
+<script src="./oracle-persona.js"></script>
+<style>
+  a { color: #C9A227; text-decoration: none; }
+  a:hover { color: #E3C05A; }
+  @keyframes twinkle { 0%,100%{opacity:.15} 50%{opacity:.85} }
+  @keyframes flame { 0%,100%{transform:scaleY(1) translateY(0);opacity:.95} 25%{transform:scaleY(1.14) translateY(-2px);opacity:1} 50%{transform:scaleY(.9) translateY(1px);opacity:.7} 75%{transform:scaleY(1.06) translateY(-1px);opacity:.92} }
+  @keyframes riseIn { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none} }
+  @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+  @keyframes glowPulse { 0%,100%{opacity:.35} 50%{opacity:.7} }
+  @keyframes sweep { from{transform:translateX(-100%)} to{transform:translateX(220%)} }
+  .oq::-webkit-scrollbar { width: 0; height: 0; }
+  ::-webkit-scrollbar { width: 0; height: 0; }
+  html, body, .oq, .orail { scrollbar-width: none; -ms-overflow-style: none; }
+  .orail { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
+  .orail::-webkit-scrollbar { width: 0; height: 0; }
+  .orail > * { scroll-snap-align: center; flex: 0 0 auto; }
+  .oinp::placeholder { color: #7B819C; }
+  .oinp:focus { outline: none; border-bottom-color: #C9A227; }
+</style>
+</helmet>
+
+<div style="position:relative; width:100%; min-height:100%; background:#0B0E1A; font-family:'Noto Serif KR',serif; color:#E8E3D5; overflow-x:hidden">
+
+  <div style="position:absolute; inset:0; pointer-events:none; background:radial-gradient(120% 70% at 50% -10%, #1E2340 0%, #12162A 45%, #0B0E1A 100%)"></div>
+  <div style="position:absolute; inset:0; pointer-events:none; opacity:.55; background-image:radial-gradient(#C9C7E0 1px, transparent 1.2px); background-size:44px 52px; background-position:8px 12px; mask-image:linear-gradient(#000 0%, transparent 70%); -webkit-mask-image:linear-gradient(#000 0%, transparent 70%)"></div>
+  <div style="position:absolute; top:60px; left:14%; width:3px; height:3px; border-radius:50%; background:#F0E6C0; animation:twinkle 3.6s ease-in-out infinite"></div>
+  <div style="position:absolute; top:140px; left:76%; width:2px; height:2px; border-radius:50%; background:#F0E6C0; animation:twinkle 4.8s ease-in-out .8s infinite"></div>
+  <div style="position:absolute; top:230px; left:36%; width:2px; height:2px; border-radius:50%; background:#F0E6C0; animation:twinkle 5.4s ease-in-out 1.6s infinite"></div>
+  <div style="position:absolute; top:96px; left:52%; width:2px; height:2px; border-radius:50%; background:#C9A227; animation:twinkle 4.2s ease-in-out 2.2s infinite"></div>
+
+  <div style="position:relative; width:100%; max-width:{{ colMax }}; margin:0 auto; padding:0 22px 40px; box-sizing:border-box">
+
+    <!-- ══ 랜딩 ══ -->
+    <sc-if value="{{ isLanding }}" hint-placeholder-val="{{ true }}">
+      <div style="padding-top:{{ topPadLanding }}; text-align:center; animation:fadeIn .6s ease both">
+        <div style="display:flex; justify-content:center; margin-bottom:26px">{{ templeArt }}</div>
+        <div style="font-family:'Cinzel',serif; font-size:11px; letter-spacing:.42em; color:#B39A55; margin-bottom:14px">ORACLE OF THE GODS</div>
+        <h1 style="margin:0; font-size:38px; line-height:1.24; font-weight:600; letter-spacing:.06em; color:#F2ECD9">신들의<br>신탁</h1>
+        <div style="width:34px; height:1px; background:#C9A227; margin:22px auto"></div>
+        <p style="margin:0 auto; max-width:300px; font-size:14.5px; line-height:1.95; color:#9BA0BA; font-weight:300; text-wrap:pretty">
+          네가 태어난 순간의 여덟 글자와 일곱 별의 자리를 계산하여, 올림포스의 신들이 각자의 영역에서 직접 신탁을 내린다.
+        </p>
+
+        <div style="display:flex; flex-direction:column; gap:2px; margin:34px 0 0; text-align:left">
+          <sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
+            <div style="display:flex; gap:16px; align-items:flex-start; padding:16px 4px; border-top:1px solid rgba(201,162,39,.16)">
+              <div style="flex:none; width:22px; font-family:'Cinzel',serif; font-size:12px; color:#C9A227; padding-top:2px">{{ s.n }}</div>
+              <div>
+                <div style="font-size:14px; font-weight:500; color:#E8E3D5; margin-bottom:5px">{{ s.title }}</div>
+                <div style="font-family:'Noto Sans KR',sans-serif; font-size:12px; line-height:1.7; color:#7B819C; font-weight:300">{{ s.body }}</div>
+              </div>
+            </div>
+          </sc-for>
+          <div style="border-top:1px solid rgba(201,162,39,.16)"></div>
+        </div>
+
+        <button onClick="{{ goInput }}" style="margin-top:30px; width:100%; min-height:56px; background:linear-gradient(#C9A227,#A6821A); border:none; border-radius:2px; color:#14100A; font-family:'Noto Serif KR',serif; font-size:16px; font-weight:600; letter-spacing:.14em; cursor:pointer; box-shadow:0 0 0 1px rgba(201,162,39,.5), 0 10px 30px -12px rgba(201,162,39,.6)" style-hover="filter:brightness(1.08)">신탁을 청하다</button>
+        <div style="font-family:'Noto Sans KR',sans-serif; font-size:10.5px; color:#8A90AC; margin-top:14px; letter-spacing:.02em">실제 명리학·천체 계산 엔진 기반 · 전부 무료</div>
+
+
+        <div style="display:flex; gap:10px; margin-top:26px; padding-top:20px; border-top:1px solid rgba(201,162,39,.16)">
+          <button onClick="{{ goArchive }}" style="flex:1; min-height:48px; background:none; border:1px solid #232945; border-radius:2px; color:#9BA0BA; font-family:'Noto Serif KR',serif; font-size:13px; cursor:pointer; transition:all .18s" style-hover="border-color:rgba(201,162,39,.45); color:#DCBB4A">지난 신탁 {{ archiveCountLabel }}</button>
+          <button onClick="{{ goCompare }}" style="flex:1; min-height:48px; background:none; border:1px solid #232945; border-radius:2px; color:#9BA0BA; font-family:'Noto Serif KR',serif; font-size:13px; cursor:pointer; transition:all .18s" style-hover="border-color:rgba(201,162,39,.45); color:#DCBB4A">두 사람 궁합 비교</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ══ 입력 ══ -->
+    <sc-if value="{{ isInput }}" hint-placeholder-val="{{ false }}">
+      <div style="padding-top:{{ topPad }}; animation:fadeIn .45s ease both">
+        <button onClick="{{ goLanding }}" style="background:none; border:none; padding:0 0 22px; color:#8A90AC; font-family:'Noto Sans KR',sans-serif; font-size:12px; cursor:pointer">← 처음으로</button>
+        <div style="font-family:'Cinzel',serif; font-size:10px; letter-spacing:.36em; color:#B39A55; margin-bottom:10px">STEP 01 — YOUR BIRTH</div>
+        <h2 style="margin:0 0 8px; font-size:25px; font-weight:600; letter-spacing:.03em; color:#F2ECD9">태어난 때를 적으라</h2>
+        <p style="margin:0 0 30px; font-family:'Noto Sans KR',sans-serif; font-size:12px; line-height:1.8; color:#7B819C; font-weight:300">시각을 알수록 신탁이 정밀해진다. 모른다면 비워두어도 좋다.</p>
+
+        <div style="display:flex; flex-direction:column; gap:26px">
+          <div>
+            <div style="font-family:'Noto Sans KR',sans-serif; font-size:10.5px; letter-spacing:.16em; color:#B39A55; margin-bottom:10px">이름 <span style="color:#7B819C">선택</span></div>
+            <input class="oinp" value="{{ fName }}" onChange="{{ setName }}" placeholder="비우면 '이름을 감춘 자'" style="width:100%; box-sizing:border-box; background:none; border:none; border-bottom:1px solid #2A3050; padding:8px 0; color:#E8E3D5; font-family:'Noto Serif KR',serif; font-size:17px; transition:border-color .2s">
+          </div>
+
+          <div>
+            <div style="font-family:'Noto Sans KR',sans-serif; font-size:10.5px; letter-spacing:.16em; color:#B39A55; margin-bottom:10px">생년월일</div>
+            <div style="display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:12px">
+              <input class="oinp" value="{{ fY }}" onChange="{{ setY }}" inputMode="numeric" maxLength="4" placeholder="1996" style="width:100%; box-sizing:border-box; background:none; border:none; border-bottom:1px solid #2A3050; padding:8px 0; color:#E8E3D5; font-family:'Cinzel',serif; font-size:20px; letter-spacing:.06em; transition:border-color .2s">
+              <input class="oinp" value="{{ fM }}" onChange="{{ setM }}" inputMode="numeric" maxLength="2" placeholder="07" style="width:100%; box-sizing:border-box; background:none; border:none; border-bottom:1px solid #2A3050; padding:8px 0; color:#E8E3D5; font-family:'Cinzel',serif; font-size:20px; letter-spacing:.06em; transition:border-color .2s">
+              <input class="oinp" value="{{ fD }}" onChange="{{ setD }}" inputMode="numeric" maxLength="2" placeholder="14" style="width:100%; box-sizing:border-box; background:none; border:none; border-bottom:1px solid #2A3050; padding:8px 0; color:#E8E3D5; font-family:'Cinzel',serif; font-size:20px; letter-spacing:.06em; transition:border-color .2s">
+            </div>
+            <div style="display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:12px; margin-top:7px; font-family:'Noto Sans KR',sans-serif; font-size:10px; color:#7B819C">
+              <div>년</div><div>월</div><div>일</div>
+            </div>
+          </div>
+
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px">
+              <div style="font-family:'Noto Sans KR',sans-serif; font-size:10.5px; letter-spacing:.16em; color:#B39A55">출생 시각 <span style="color:#7B819C">선택</span></div>
+              <button onClick="{{ toggleUnknown }}" style="background:none; border:none; padding:0; font-family:'Noto Sans KR',sans-serif; font-size:11px; color:{{ unknownColor }}; cursor:pointer">{{ unknownLabel }}</button>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; opacity:{{ timeOpacity }}">
+              <input class="oinp" value="{{ fH }}" onChange="{{ setH }}" disabled="{{ timeDisabled }}" inputMode="numeric" maxLength="2" placeholder="09" style="width:100%; box-sizing:border-box; background:none; border:none; border-bottom:1px solid #2A3050; padding:8px 0; color:#E8E3D5; font-family:'Cinzel',serif; font-size:20px; transition:border-color .2s">
+              <input class="oinp" value="{{ fMin }}" onChange="{{ setMin }}" disabled="{{ timeDisabled }}" inputMode="numeric" maxLength="2" placeholder="40" style="width:100%; box-sizing:border-box; background:none; border:none; border-bottom:1px solid #2A3050; padding:8px 0; color:#E8E3D5; font-family:'Cinzel',serif; font-size:20px; transition:border-color .2s">
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:7px; font-family:'Noto Sans KR',sans-serif; font-size:10px; color:#7B819C"><div>시</div><div>분</div></div>
+          </div>
+
+          <div>
+            <div style="font-family:'Noto Sans KR',sans-serif; font-size:10.5px; letter-spacing:.16em; color:#B39A55; margin-bottom:10px">성별 <span style="color:#7B819C">대운 판정에 필요</span></div>
+            <div style="display:flex; gap:8px">
+              <sc-for list="{{ genders }}" as="g" hint-placeholder-count="3">
+                <button onClick="{{ g.on }}" style="flex:1; min-height:44px; background:{{ g.bg }}; border:1px solid {{ g.bd }}; border-radius:2px; color:{{ g.fg }}; font-family:'Noto Serif KR',serif; font-size:13.5px; cursor:pointer; transition:all .18s">{{ g.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+
+          <button onClick="{{ togglePrecise }}" style="display:flex; align-items:flex-start; gap:13px; text-align:left; background:rgba(255,255,255,.02); border:1px solid {{ preciseBorder }}; border-radius:2px; padding:15px 16px; cursor:pointer; transition:border-color .2s">
+            <div style="flex:none; width:36px; height:20px; border-radius:11px; background:{{ preciseTrack }}; position:relative; transition:background .22s; margin-top:2px">
+              <div style="position:absolute; top:2px; left:{{ preciseKnobX }}; width:16px; height:16px; border-radius:50%; background:{{ preciseKnob }}; transition:left .22s"></div>
+            </div>
+            <div>
+              <div style="font-family:'Noto Serif KR',serif; font-size:13.5px; color:#E8E3D5; margin-bottom:4px">정밀 모드 · 진태양시 보정</div>
+              <div style="font-family:'Noto Sans KR',sans-serif; font-size:11px; line-height:1.65; color:#7B819C; font-weight:300">표준시(동경 135°)와 실제 경도차·균시차를 반영해 시주를 다시 판정한다. {{ preciseNote }}</div>
+            </div>
+          </button>
+
+          <button onClick="{{ submit }}" disabled="{{ submitDisabled }}" style="width:100%; min-height:56px; background:{{ ctaBg }}; border:none; border-radius:2px; color:{{ ctaFg }}; font-family:'Noto Serif KR',serif; font-size:16px; font-weight:600; letter-spacing:.14em; cursor:{{ ctaCursor }}; box-shadow:{{ ctaShadow }}; transition:all .2s">{{ ctaLabel }}</button>
+          <sc-if value="{{ formError }}" hint-placeholder-val="{{ false }}">
+            <div style="font-family:'Noto Sans KR',sans-serif; font-size:11.5px; color:#C2554A; margin-top:-16px">{{ formError }}</div>
+          </sc-if>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ══ 로딩 ══ -->
+    <sc-if value="{{ isLoading }}" hint-placeholder-val="{{ false }}">
+      <div style="min-height:520px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:80px 0; animation:fadeIn .4s ease both">
+        <div style="position:relative; width:96px; height:120px; display:flex; align-items:flex-end; justify-content:center">
+          <div style="position:absolute; bottom:26px; width:78px; height:78px; border-radius:50%; background:radial-gradient(circle, rgba(201,162,39,.42), transparent 70%); animation:glowPulse 2.1s ease-in-out infinite"></div>
+          <div style="position:relative; margin-bottom:20px; transform-origin:50% 100%; animation:flame 1.15s ease-in-out infinite">{{ flameArt }}</div>
+          <div style="position:absolute; bottom:0; width:66px; height:12px; border-top:1px solid rgba(201,162,39,.5); border-left:1px solid rgba(201,162,39,.25); border-right:1px solid rgba(201,162,39,.25)"></div>
+        </div>
+        <div style="font-family:'Cinzel',serif; font-size:10px; letter-spacing:.4em; color:#B39A55; margin:34px 0 16px">CONSULTING</div>
+        <div style="font-size:16.5px; line-height:1.8; color:#E8E3D5; min-height:60px; max-width:270px; font-weight:400">{{ loadingPhrase }}</div>
+        <div style="width:180px; height:1px; background:rgba(201,162,39,.18); margin-top:20px; overflow:hidden; position:relative">
+          <div style="position:absolute; inset:0; width:45%; background:linear-gradient(90deg,transparent,#C9A227,transparent); animation:sweep 1.5s linear infinite"></div>
+        </div>
+        <div style="font-family:'Noto Sans KR',sans-serif; font-size:10.5px; color:#7B819C; margin-top:18px">{{ loadingStep }}</div>
+      </div>
+    </sc-if>
+
+    <!-- ══ 결과 ══ -->
+    <sc-if value="{{ isResult }}" hint-placeholder-val="{{ false }}">
+      <div style="padding-top:{{ topPad }}">
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:22px">
+          <button onClick="{{ goInput }}" style="background:none; border:none; padding:0; margin-left:-2px; color:#8A90AC; font-family:'Noto Sans KR',sans-serif; font-size:12px; cursor:pointer">← 다시 묻기</button>
+          <div style="font-family:'Cinzel',serif; font-size:9.5px; letter-spacing:.3em; color:#B39A55">{{ birthStamp }}</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; margin-bottom:22px; border:1px solid rgba(201,162,39,.22)">
+          <sc-for list="{{ resultTabs }}" as="t" hint-placeholder-count="2">
+            <button onClick="{{ t.on }}" style="min-height:54px; padding:0 6px; background:{{ t.bg }}; border:none; color:{{ t.fg }}; font-family:'Noto Serif KR',serif; font-size:13.5px; letter-spacing:.06em; cursor:pointer; transition:all .18s">
+              <div>{{ t.label }}</div>
+              <div style="font-family:'Cinzel',serif; font-size:8.5px; letter-spacing:.18em; color:{{ t.subColor }}; margin-top:4px">{{ t.sub }}</div>
+            </button>
+          </sc-for>
+        </div>
+
+        <sc-if value="{{ isLifeTab }}" hint-placeholder-val="{{ true }}">
+          <div>
+
+        <!-- 한 문장 -->
+        <div style="margin-bottom:14px; border:1px solid rgba(201,162,39,.34); background:linear-gradient(180deg, rgba(201,162,39,.09), rgba(255,255,255,.015)); animation:riseIn .55s ease both">
+          <div style="height:3px; background:linear-gradient(90deg, transparent, #C9A227, transparent); opacity:.75"></div>
+          <div style="padding:26px 20px 24px">
+            <div style="font-family:'Noto Sans KR',sans-serif; font-size:10px; letter-spacing:.18em; color:#B39A55">한 문장으로</div>
+            <p style="margin:16px 0 0; font-size:23px; line-height:1.62; font-weight:600; letter-spacing:0; color:#F5F0DE; text-wrap:pretty">{{ personaHeadline }}</p>
+            <div style="display:flex; gap:9px; align-items:baseline; margin-top:16px; padding-top:15px; border-top:1px solid rgba(201,162,39,.2)">
+              <div style="flex:none; font-family:'Noto Sans KR',sans-serif; font-size:9.5px; letter-spacing:.16em; color:#B39A55; padding-top:3px">근거</div>
+              <div style="flex:1; font-family:'Noto Sans KR',sans-serif; font-size:11.5px; line-height:1.85; color:#9BA0BA; text-wrap:pretty">{{ personaWhy }}</div>
+            </div>
+            <p style="margin:15px 0 0; font-size:13.5px; line-height:2.05; color:#C4C8DA; font-weight:300; text-wrap:pretty">{{ personaMore }}</p>
+          </div>
+        </div>
+
+        <!-- 부딪히는 자리 -->
+        <sc-if value="{{ hasCollisions }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-bottom:14px; border:1px solid rgba(255,255,255,.09); background:#0E1224; animation:riseIn .55s ease .08s both">
+
+            <div style="padding:18px 18px 16px; border-bottom:1px solid rgba(255,255,255,.07)">
+              <div style="font-family:'Noto Sans KR',sans-serif; font-size:10px; letter-spacing:.18em; color:#B39A55">부딪히는 자리</div>
+              <div style="display:flex; align-items:baseline; gap:10px; margin-top:10px">
+                <div style="font-size:17px; font-weight:600; letter-spacing:.04em; color:#F2ECD9">{{ strengthLabel }}</div>
+                <div style="flex:1; font-family:'Noto Sans KR',sans-serif; font-size:10.5px; line-height:1.6; color:#8A90AC">{{ strengthNote }}</div>
+              </div>
+            </div>
+
+            <sc-for list="{{ collisions }}" as="c" hint-placeholder-count="2">
+              <div style="padding:18px; border-bottom:1px solid rgba(255,255,255,.05)">
+                <div style="font-family:'Noto Sans KR',sans-serif; font-size:9.5px; letter-spacing:.16em; color:#B39A55">{{ c.section }}</div>
+                <p style="margin:9px 0 0; font-size:15px; line-height:1.78; color:#F2ECD9; text-wrap:pretty">{{ c.line }}</p>
+                <p style="margin:10px 0 0; font-family:'Noto Sans KR',sans-serif; font-size:11px; line-height:1.85; color:#8A90AC; font-weight:300; text-wrap:pretty">{{ c.why }}</p>
+              </div>
+            </sc-for>
+
+            <div style="padding:18px">
+              <div style="font-family:'Noto Sans KR',sans-serif; font-size:9.5px; letter-spacing:.16em; color:#B39A55; margin-bottom:14px">십신 분포</div>
+              <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:8px">
+                <sc-for list="{{ personaGroups }}" as="gp" hint-placeholder-count="5">
+                  <div style="text-align:center">
+                    <div style="position:relative; height:46px; border-bottom:1px solid rgba(255,255,255,.08)">
+                      <div style="position:absolute; left:0; right:0; bottom:0; height:{{ gp.barH }}; background:{{ gp.color }}"></div>
+                    </div>
+                    <div style="font-family:'Noto Sans KR',sans-serif; font-size:10.5px; color:{{ gp.labelColor }}; margin-top:9px">{{ gp.name }}</div>
+                    <div style="font-family:'Cinzel',serif; font-size:13px; color:{{ gp.labelColor }}; margin-top:3px">{{ gp.count }}</div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="font-family:'Noto Sans KR',sans-serif; font-size:10px; line-height:1.75; color:#8A90AC; margin-top:16px">일간을 뺀 일곱 글자를 십신 다섯 갈래로 몰아 세었다. 셋 이상이면 과다, 없으면 부재로 본다.</div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- 지나온 자리 -->
+        <sc-if value="{{ hasPast }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-bottom:14px; border:1px solid rgba(255,255,255,.09); background:rgba(255,255,255,.02); padding:20px 18px; animation:riseIn .55s ease .16s both">
+            <div style="font-family:'Noto Sans KR',sans-serif; font-size:10px; letter-spacing:.18em; color:#B39A55; margin-bottom:16px">지나온 자리</div>
+            <div style="display:flex; flex-direction:column; gap:12px">
+              <sc-for list="{{ personaPast }}" as="pm" hint-placeholder-count="3">
+                <div style="display:grid; grid-template-columns:52px 1fr; gap:12px; align-items:baseline">
+                  <div style="font-family:'Cinzel',serif; font-size:15px; color:#DCBB4A">{{ pm.age }}</div>
+                  <div style="font-size:13px; line-height:1.9; color:#C4C8DA; font-weight:300; text-wrap:pretty">{{ pm.note }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="font-family:'Noto Sans KR',sans-serif; font-size:9.5px; line-height:1.7; color:#7B819C; margin-top:15px; padding-top:13px; border-top:1px solid rgba(255,255,255,.06)">대운이 바뀌는 나이다. 틀렸다면 생시를 다시 보라 — 입운 나이는 생일에서 절기까지의 일수로 정해진다.</div>
+          </div>
+        </sc-if>
+
+        <!-- 수호신 -->
+        <div style="margin-bottom:14px; border:1px solid rgba(255,255,255,.09); background:rgba(255,255,255,.022); animation:riseIn .6s ease .24s both">
+          <div style="display:flex; gap:15px; align-items:center; padding:18px; border-bottom:1px solid rgba(255,255,255,.07)">
+            <div style="flex:none">{{ guardIcon }}</div>
+            <div style="flex:1; min-width:0">
+              <div style="font-family:'Noto Sans KR',sans-serif; font-size:10px; letter-spacing:.18em; color:#B39A55">그대의 수호신</div>
+              <div style="font-size:19px; font-weight:600; letter-spacing:.04em; color:#F2ECD9; margin-top:7px">{{ guardName }}</div>
+              <div style="font-family:'Noto Sans KR',sans-serif; font-size:10.5px; color:#9BA0BA; margin-top:5px">{{ guardSign }} · {{ guardSymbol }}</div>
+            </div>
+          </div>
+          <div style="padding:18px">
+            <p style="margin:0; font-size:14px; line-height:2; color:#C4C8DA; font-weight:300; text-wrap:pretty">{{ greeting }}</p>
+          </div>
+          <div style="display:flex; gap:13px; align-items:flex-start; padding:16px 18px 18px; border-top:1px solid rgba(255,255,255,.06)">
+            <div style="flex:none; margin-top:3px">{{ pairIcon }}</div>
+            <div style="flex:1; min-width:0">
+              <div style="font-family:'Noto Sans KR',sans-serif; font-size:9.5px; letter-spacing:.16em; color:#B39A55">짝을 이루는 신 · {{ pairRel }}</div>
+              <div style="font-size:14px; font-weight:600; letter-spacing:.03em; color:#E8E3D5; margin-top:7px">{{ guardName }} ↔ {{ pairName }}</div>
+              <p style="margin:8px 0 0; font-family:'Noto Sans KR',sans-serif; font-size:11.5px; line-height:1.85; color:#8A90AC; font-weight:300; text-wrap:pretty">{{ pairNote }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 사주 원국 -->
+        <div style="margin-top:14px; border:1px solid rgba(255,255,255,.09); background:#0E1224; animation:riseIn .6s ease .16s both">
+          <div onClick="{{ togglePillars }}" style="display:flex; justify-content:space-between; align-items:center; padding:16px 18px; border-bottom:1px solid {{ pillarsBorder }}; cursor:pointer">
+            <div>
+              <div style="font-family:'Cinzel',serif; font-size:9.5px; letter-spacing:.3em; color:#B39A55">FOUR PILLARS</div>
+              <div style="font-size:15px; font-weight:600; letter-spacing:.05em; margin-top:6px">사주 원국 四柱</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px">
+              <div style="text-align:right; font-family:'Noto Sans KR',sans-serif; font-size:9.5px; line-height:1.6; color:#7B819C">
+                <div>{{ pillarsSummary }}</div>
+                <div>{{ correctionLabel }}</div>
+              </div>
+              <div style="font-size:11px; color:#B39A55; transform:rotate({{ pillarsCaret }}); transition:transform .2s">▾</div>
+            </div>
+          </div>
+
+          <sc-if value="{{ pillarsOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid; grid-template-columns:repeat(4,1fr); border-bottom:1px solid rgba(255,255,255,.07)">
+            <sc-for list="{{ pillars }}" as="p" hint-placeholder-count="4">
+              <div style="padding:14px 6px 16px; text-align:center; border-right:1px solid rgba(255,255,255,.05)">
+                <div style="font-family:'Noto Sans KR',sans-serif; font-size:9.5px; letter-spacing:.12em; color:#8A90AC; margin-bottom:12px">{{ p.key }}</div>
+                <div style="font-family:'Noto Sans KR',sans-serif; font-size:8.5px; color:{{ p.stemColor }}; letter-spacing:.04em; height:12px">{{ p.stemTen }}</div>
+                <div style="font-family:'Cinzel',serif; font-size:30px; line-height:1.15; color:{{ p.stemColor }}; margin:2px 0 1px">{{ p.stemHanja }}</div>
+                <div style="height:1px; background:rgba(255,255,255,.07); margin:8px 12px"></div>
+                <div style="font-family:'Cinzel',serif; font-size:30px; line-height:1.15; color:{{ p.branchColor }}; margin:1px 0 2px">{{ p.branchHanja }}</div>
+                <div style="font-family:'Noto Sans KR',sans-serif; font-size:8.5px; color:{{ p.branchColor }}; letter-spacing:.04em; height:12px">{{ p.branchTen }}</div>
+                <div style="font-family:'Noto Sans KR',sans-serif; font-size:10px; color:#8A90AC; margin-top:10px">{{ p.kr }}</div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="padding:18px">
+            <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px">
+              <div style="font-family:'Noto Sans KR',sans-serif; font-size:9.5px; letter-spacing:.2em; color:#B39A55">오행 분포 五行</div>
+              <div style="font-family:'Noto Sans KR',sans-serif; font-size:9.5px; color:#7B819C">여덟 글자 집계</div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:9px">
+              <sc-for list="{{ elements }}" as="e" hint-placeholder-count="5">
+                <div style="display:grid; grid-template-columns:44px 1fr 22px; gap:10px; align-items:center">
+                  <div style="font-family:'Noto Sans KR',sans-serif; font-size:11px; color:{{ e.labelColor }}">{{ e.hanja }} {{ e.name }}</div>
+                  <div style="height:5px; background:rgba(255,255,255,.06); position:relative">
+                    <div style="position:absolute; top:0; left:0; bottom:0; width:{{ e.width }}; background:{{ e.color }}"></div>
+                  </div>
+                  <div style="font-family:'Cinzel',serif; font-size:12px; text-align:right; color:{{ e.labelColor }}">{{ e.count }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="margin-top:16px; padding-top:14px; border-top:1px solid rgba(255,255,255,.06); display:grid; grid-template-columns:1fr 1fr; gap:12px; font-family:'Noto Sans KR',sans-serif; font-size:10.5px; color:#7B819C">
+              <div>일간 <span style="color:#E8E3D5">{{ dayStemLabel }}</span></div>
+              <div style="text-align:right">가장 성한 기운 <span style="color:#E8E3D5">{{ maxElLabel }}</span></div>
+            </div>
+          </div>
+          </sc-if>
+        </div>
+
+        <!-- 천체 배치 -->
+        <div style="margin-top:14px; border:1px solid rgba(255,255,255,.09); background:#0E1224; animation:riseIn .6s ease .24s both">
+          <div onClick="{{ toggleNatal }}" style="display:flex; justify-content:space-between; align-items:center; padding:16px 18px; border-bottom:1px solid {{ natalBorder }}; cursor:pointer">
+            <div>
+              <div style="font-family:'Cinzel',serif; font-size:9.5px; letter-spacing:.3em; color:#B39A55">NATAL CHART</div>
+              <div style="font-size:15px; font-weight:600; letter-spacing:.05em; margin-top:6px">천체 배치</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px">
+              <div style="font-family:'Noto Sans KR',sans-serif; font-size:9.5px; color:#7B819C; text-align:right">{{ natalSummary }}<br>{{ utStamp }} UT</div>
+              <div style="font-size:11px; color:#B39A55; transform:rotate({{ natalCaret }}); transition:transform .2s">▾</div>
+            </div>
+          </div>
+          <sc-if value="{{ natalOpen }}" hint-placeholder-val="{{ false }}">
+          <sc-for list="{{ natal }}" as="b" hint-placeholder-count="7">
+            <div style="display:grid; grid-template-columns:20px 52px 1fr auto; gap:10px; align-items:center; padding:11px 18px; border-bottom:1px solid rgba(255,255,255,.04)">
+              <div style="font-size:15px; color:#C9A227; text-align:center">{{ b.glyph }}</div>
+              <div style="font-family:'Noto Sans KR',sans-serif; font-size:12px; color:#E8E3D5">{{ b.name }}</div>
+              <div>
+                <div style="font-family:'Noto Sans KR',sans-serif; font-size:12px; color:#B9BDD0">{{ b.sign }}</div>
+                <div style="font-family:'Noto Sans KR',sans-serif; font-size:9.5px; color:#8A90AC; margin-top:2px">{{ b.god }}</div>
+              </div>
+              <div style="font-family:'Cinzel',serif; font-size:12.5px; color:#B39A55; letter-spacing:.03em">{{ b.deg }}°</div>
+            </div>
+          </sc-for>
+          <div style="padding:12px 18px; font-family:'Noto Sans KR',sans-serif; font-size:9.5px; line-height:1.7; color:#7B819C">케플러 방정식 기반 궤도 요소로 태어난 순간의 황경을 산출하여 12궁으로 환산했다.</div>
+          </sc-if>
+        </div>
+
+        <!-- 다섯 신탁 -->
+        <div style="display:flex; align-items:baseline; justify-content:space-between; margin:32px 0 12px">
+          <div style="font-family:'Noto Sans KR',sans-serif; font-size:10px; letter-spacing:.18em; color:#B39A55">다섯 신의 신탁</div>
+          <div style="font-family:'Noto Sans KR',sans-serif; font-size:10px; color:#8A90AC">눌러서 펼치라</div>
+        </div>
+
+        <div style="border:1px solid rgba(255,255,255,.09); background:rgba(255,255,255,.018)">
+          <sc-for list="{{ oracles }}" as="o" hint-placeholder-count="5">
+            <div style="border-bottom:1px solid rgba(255,255,255,.06)">
+              <div onClick="{{ o.toggle }}" style="display:flex; gap:13px; align-items:center; padding:16px 18px; cursor:pointer; background:{{ o.headBg }}; transition:background .18s">
+                <div style="flex:none">{{ o.icon }}</div>
+                <div style="flex:1; min-width:0">
+                  <div style="font-family:'Noto Sans KR',sans-serif; font-size:9.5px; letter-spacing:.16em; color:#B39A55">{{ o.label }}</div>
+                  <div style="font-size:15px; font-weight:600; letter-spacing:.04em; color:{{ o.godColor }}; margin-top:6px">{{ o.god }}</div>
+                </div>
+                <div style="flex:none; font-size:11px; color:#8A90AC; transform:rotate({{ o.caret }}); transition:transform .2s">▾</div>
+              </div>
+              <sc-if value="{{ o.open }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:0 18px 20px">
+                  <div style="display:flex; flex-direction:column; gap:12px">
+                    <sc-for list="{{ o.paragraphs }}" as="para" hint-placeholder-count="3">
+                      <p style="margin:0; font-size:13.5px; line-height:2.05; color:#C4C8DA; font-weight:300; text-wrap:pretty">{{ para }}</p>
+                    </sc-for>
+                  </div>
+                  <sc-if value="{{ showEvidence }}" hint-placeholder-val="{{ true }}">
+                    <div style="margin-top:16px; padding-top:13px; border-top:1px solid rgba(255,255,255,.06); font-family:'Noto Sans KR',sans-serif; font-size:10px; color:#8A90AC; line-height:1.75">근거 · {{ o.evidence }}</div>
+                  </sc-if>
+                </div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isYearTab }}" hint-placeholder-val="{{ false }}">
+          <div>
+            <div style="position:relative; text-align:center; padding:30px 22px 28px; border:1px solid rgba(201,162,39,.22); background:linear-gradient(180deg, rgba(201,162,39,.08), rgba(201,162,39,.01) 60%, transparent); animation:riseIn .6s ease both">
+              <div style="position:absolute; inset:0; pointer-events:none; background:radial-gradient(60% 45% at 50% 0%, rgba(201,162,39,.2), transparent 70%)"></div>
+              <div style="position:relative">
+                <div style="font-family:'Cinzel',serif; font-size:9.5px; letter-spacing:.36em; color:#B39A55">TURN OF THE YEAR</div>
+                <div style="display:flex; align-items:flex-start; justify-content:center; gap:18px; margin:24px 0 20px">
+                  <div style="width:104px">
+                    <div style="font-family:'Cinzel',serif; font-size:11px; letter-spacing:.14em; color:#B39A55">{{ yearCur }}</div>
+                    <div style="font-family:'Cinzel',serif; font-size:32px; line-height:1.1; color:#F2ECD9; margin-top:8px">{{ yearCurGanji }}</div>
+                    <div style="font-family:'Noto Sans KR',sans-serif; font-size:10.5px; line-height:1.6; color:#8A90AC; margin-top:7px">{{ yearCurKr }}<br>{{ yearCurTen }}</div>
+                  </div>
+                  <div style="font-family:'Cinzel',serif; font-size:17px; color:#B39A55; padding-top:26px">&rarr;</div>
+                  <div style="width:104px">
+                    <div style="font-family:'Cinzel',serif; font-size:11px; letter-spacing:.14em; color:#B39A55">{{ yearNext }}</div>
+                    <div style="font-family:'Cinzel',serif; font-size:32px; line-height:1.1; color:#F2ECD9; margin-top:8px">{{ yearNextGanji }}</div>
+                    <div style="font-family:'Noto Sans KR',sans-serif; font-size:10.5px; line-height:1.6; color:#8A90AC; margin-top:7px">{{ yearNextKr }}<br>{{ yearNextTen }}</div>
+                  </div>
+                </div>
+                <div style="width:26px; height:1px; background:rgba(201,162,39,.5); margin:0 auto 18px"></div>
+                <div style="font-size:19px; font-weight:600; letter-spacing:.08em; color:#DCBB4A">{{ yearHeadline }}</div>
+                <div style="font-family:'Noto Sans KR',sans-serif; font-size:10.5px; line-height:1.7; color:#8A90AC; margin-top:12px">{{ closerName }}가 닫고 {{ openerName }}가 연다</div>
+              </div>
+            </div>
+
+            <div style="margin-top:14px; border:1px solid rgba(255,255,255,.09); background:rgba(255,255,255,.022); animation:riseIn .55s ease .08s both">
+              <div style="padding:20px 18px 22px">
+                <div style="display:flex; gap:12px; align-items:center; padding-bottom:14px; margin-bottom:16px; border-bottom:1px solid rgba(255,255,255,.07)">
+                  <div style="flex:none">{{ closerIcon }}</div>
+                  <div style="flex:1; min-width:0">
+                    <div style="font-family:'Noto Sans KR',sans-serif; font-size:10px; letter-spacing:.22em; color:#C4C8DA; margin-bottom:5px">연말 · {{ closerTag }} · 남은 {{ yearMonthsLeft }}달</div>
+                    <div style="font-size:15px; font-weight:600; letter-spacing:.05em; color:#E8E3D5">{{ closerName }}</div>
+                    <div style="font-family:'Noto Sans KR',sans-serif; font-size:10px; color:#7B819C; margin-top:4px">{{ closerRole }}</div>
+                  </div>
+                  <div style="flex:none; font-family:'Cinzel',serif; font-size:10.5px; color:#8A90AC">{{ yearCurGanji }}</div>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:13px">
+                  <sc-for list="{{ yearCurParas }}" as="para" hint-placeholder-count="3">
+                    <p style="margin:0; font-size:13.5px; line-height:2.05; color:#C4C8DA; font-weight:300; text-wrap:pretty">{{ para }}</p>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top:14px; border:1px solid {{ openerBorder }}; background:linear-gradient(180deg, {{ openerTint }}, rgba(255,255,255,.015)); animation:riseIn .55s ease .16s both">
+              <div style="height:3px; background:linear-gradient(90deg, transparent, {{ openerColor }}, transparent); opacity:.7"></div>
+              <div style="padding:22px 20px 24px">
+                <div style="display:flex; gap:13px; align-items:center; padding-bottom:15px; margin-bottom:18px; border-bottom:1px solid rgba(255,255,255,.07)">
+                  <div style="flex:none">{{ openerIcon }}</div>
+                  <div style="flex:1; min-width:0">
+                    <div style="font-family:'Noto Sans KR',sans-serif; font-size:10px; letter-spacing:.22em; color:#C4C8DA; margin-bottom:5px">신년 · {{ openerTag }} · {{ yearNext }}년</div>
+                    <div style="font-size:19px; font-weight:600; letter-spacing:.05em; color:#F5F0DE">{{ openerName }}</div>
+                    <div style="font-family:'Noto Sans KR',sans-serif; font-size:10px; color:#8A90AC; margin-top:4px">{{ openerRole }} · 세운 {{ yearNextTen }}의 자리</div>
+                  </div>
+                  <div style="flex:none; font-family:'Cinzel',serif; font-size:11px; color:#B39A55">{{ yearNextGanji }}</div>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:13px">
+                  <sc-for list="{{ yearNextParas }}" as="para" hint-placeholder-count="4">
+                    <p style="margin:0; font-size:13.5px; line-height:2.05; color:#C4C8DA; font-weight:300; text-wrap:pretty">{{ para }}</p>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top:14px; border:1px solid rgba(255,255,255,.09); background:#0E1224; animation:riseIn .55s ease .24s both">
+              <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 18px; border-bottom:1px solid rgba(255,255,255,.07)">
+                <div>
+                  <div style="font-family:'Cinzel',serif; font-size:9.5px; letter-spacing:.28em; color:#B39A55">SIX MEASURES</div>
+                  <div style="font-size:15px; font-weight:600; letter-spacing:.06em; margin-top:5px">판정의 근거</div>
+                </div>
+                <div style="font-family:'Noto Sans KR',sans-serif; font-size:9.5px; color:#7B819C; text-align:right">세운 · 대운<br>트랜짓</div>
+              </div>
+              <sc-for list="{{ yearRows }}" as="rw" hint-placeholder-count="6">
+                <div style="display:grid; grid-template-columns:78px 1fr; gap:12px; padding:13px 18px; border-bottom:1px solid rgba(255,255,255,.04)">
+                  <div style="font-family:'Noto Sans KR',sans-serif; font-size:10.5px; line-height:1.5; color:#B39A55; padding-top:3px">{{ rw.label }}</div>
+                  <div>
+                    <div style="font-family:'Cinzel',serif; font-size:14.5px; color:#E8E3D5; letter-spacing:.04em">{{ rw.value }}</div>
+                    <div style="font-family:'Noto Sans KR',sans-serif; font-size:10px; line-height:1.75; color:#8A90AC; margin-top:5px; text-wrap:pretty">{{ rw.note }}</div>
+                  </div>
+                </div>
+              </sc-for>
+              <div style="padding:12px 18px; font-family:'Noto Sans KR',sans-serif; font-size:9.5px; line-height:1.7; color:#7B819C">세운은 입춘을 경계로 갈리며, 대운의 순행·역행은 년간 음양과 성별로 판정된다. 트랜짓은 해당 연도 12월 31일 정오의 천체 위치로 고정한다.</div>
+            </div>
+          </div>
+        </sc-if>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:26px">
+          <button onClick="{{ openShare }}" style="min-height:52px; background:linear-gradient(#C9A227,#A6821A); border:none; border-radius:2px; color:#14100A; font-family:'Noto Serif KR',serif; font-size:14px; font-weight:600; letter-spacing:.1em; cursor:pointer" style-hover="filter:brightness(1.08)">공유용 카드</button>
+          <button onClick="{{ copyText }}" style="min-height:52px; background:none; border:1px solid rgba(201,162,39,.4); border-radius:2px; color:#DCBB4A; font-family:'Noto Serif KR',serif; font-size:14px; letter-spacing:.1em; cursor:pointer" style-hover="background:rgba(201,162,39,.1)">{{ copyLabel }}</button>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px">
+          <button onClick="{{ goCompare }}" style="min-height:48px; background:none; border:1px solid #232945; border-radius:2px; color:#9BA0BA; font-family:'Noto Serif KR',serif; font-size:13px; cursor:pointer; transition:all .18s" style-hover="border-color:rgba(201,162,39,.45); color:#DCBB4A">이 사주로 궁합 보기</button>
+          <button onClick="{{ goArchive }}" style="min-height:48px; background:none; border:1px solid #232945; border-radius:2px; color:#9BA0BA; font-family:'Noto Serif KR',serif; font-size:13px; cursor:pointer; transition:all .18s" style-hover="border-color:rgba(201,162,39,.45); color:#DCBB4A">보관함 {{ archiveCountLabel }}</button>
+        </div>
+        <button onClick="{{ goInput }}" style="width:100%; min-height:48px; margin-top:10px; background:none; border:none; color:#8A90AC; font-family:'Noto Sans KR',sans-serif; font-size:12.5px; cursor:pointer">다른 사주 다시 묻기</button>
+      </div>
+    </sc-if>
+
+    <!-- ══ 보관함 ══ -->
+    <sc-if value="{{ isArchive }}" hint-placeholder-val="{{ false }}">
+      <div style="padding-top:{{ topPad }}; animation:fadeIn .45s ease both">
+        <button onClick="{{ goLanding }}" style="background:none; border:none; padding:0 0 22px; color:#8A90AC; font-family:'Noto Sans KR',sans-serif; font-size:12px; cursor:pointer">← 처음으로</button>
+        <div style="font-family:'Cinzel',serif; font-size:10px; letter-spacing:.36em; color:#B39A55; margin-bottom:10px">ARCHIVE</div>
+        <h2 style="margin:0 0 8px; font-size:25px; font-weight:600; letter-spacing:.03em; color:#F2ECD9">지난 신탁</h2>
+        <p style="margin:0 0 26px; font-family:'Noto Sans KR',sans-serif; font-size:12px; line-height:1.8; color:#7B819C; font-weight:300">이 기기에만 남는 기록이다. 다시 열면 같은 여덟 글자를 그대로 다시 계산한다.</p>
+
+        <sc-if value="{{ archiveEmpty }}" hint-placeholder-val="{{ false }}">
+          <div style="text-align:center; padding:52px 20px 46px; border:1px solid rgba(255,255,255,.07); background:rgba(255,255,255,.015)">
+            <div style="display:flex; justify-content:center; opacity:.5">{{ emptyArt }}</div>
+            <div style="font-size:14.5px; color:#9BA0BA; margin-top:22px; font-weight:300">아직 청한 신탁이 없다.</div>
+            <button onClick="{{ goInput }}" style="margin-top:24px; min-height:48px; padding:0 26px; background:linear-gradient(#C9A227,#A6821A); border:none; border-radius:2px; color:#14100A; font-family:'Noto Serif KR',serif; font-size:14px; font-weight:600; letter-spacing:.12em; cursor:pointer">첫 신탁 청하기</button>
+          </div>
+        </sc-if>
+
+        <div style="display:flex; flex-direction:column; gap:10px">
+          <sc-for list="{{ archive }}" as="a" hint-placeholder-count="3">
+            <div style="display:flex; gap:14px; align-items:center; padding:16px 14px 16px 16px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.02); transition:border-color .18s" style-hover="border-color:rgba(201,162,39,.32)">
+              <div onClick="{{ a.open }}" style="flex:1; min-width:0; display:flex; gap:14px; align-items:center; cursor:pointer">
+                <div style="flex:none">{{ a.icon }}</div>
+                <div style="flex:1; min-width:0">
+                  <div style="font-size:15px; font-weight:600; letter-spacing:.04em; color:#F2ECD9">{{ a.title }}</div>
+                  <div style="font-family:'Cinzel',serif; font-size:10.5px; letter-spacing:.1em; color:#B39A55; margin-top:6px">{{ a.stamp }}</div>
+                  <div style="font-family:'Noto Sans KR',sans-serif; font-size:10.5px; line-height:1.7; color:#8A90AC; margin-top:5px">{{ a.meta }}</div>
+                </div>
+              </div>
+              <button onClick="{{ a.remove }}" style="flex:none; width:36px; height:36px; background:none; border:none; color:#8A90AC; font-size:17px; line-height:1; cursor:pointer" style-hover="color:#C2554A">×</button>
+            </div>
+          </sc-for>
+        </div>
+
+        <sc-if value="{{ archiveAny }}" hint-placeholder-val="{{ true }}">
+          <button onClick="{{ clearArchive }}" style="width:100%; min-height:46px; margin-top:16px; background:none; border:none; color:#8A90AC; font-family:'Noto Sans KR',sans-serif; font-size:12px; cursor:pointer" style-hover="color:#C2554A">보관함 전부 지우기</button>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <!-- ══ 궁합 비교 ══ -->
+    <sc-if value="{{ isCompare }}" hint-placeholder-val="{{ false }}">
+      <div style="padding-top:{{ topPad }}; animation:fadeIn .45s ease both">
+        <button onClick="{{ goLanding }}" style="background:none; border:none; padding:0 0 22px; color:#8A90AC; font-family:'Noto Sans KR',sans-serif; font-size:12px; cursor:pointer">← 처음으로</button>
+        <div style="font-family:'Cinzel',serif; font-size:10px; letter-spacing:.36em; color:#B39A55; margin-bottom:10px">TWO CHARTS</div>
+        <h2 style="margin:0 0 8px; font-size:25px; font-weight:600; letter-spacing:.03em; color:#F2ECD9">두 사람의 궁합</h2>
+        <p style="margin:0 0 4px; font-family:'Noto Sans KR',sans-serif; font-size:12px; line-height:1.8; color:#7B819C; font-weight:300">두 원국의 일간·일지 관계, 열여섯 글자의 오행 상보, 수호신 배치, 태양·달·금성의 각을 대조해 판정한다. 시각은 비워도 좋다.</p>
+
+        <sc-for list="{{ people }}" as="pp" hint-placeholder-count="2">
+          <div style="margin-top:20px; padding:18px; border:1px solid {{ pp.border }}; background:rgba(255,255,255,.02)">
+            <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:18px">
+              <div style="font-family:'Cinzel',serif; font-size:10px; letter-spacing:.3em; color:{{ pp.tagColor }}">{{ pp.tag }}</div>
+              <div style="font-family:'Noto Sans KR',sans-serif; font-size:10.5px; color:#8A90AC">{{ pp.hint }}</div>
+            </div>
+            <input class="oinp" value="{{ pp.name }}" onChange="{{ pp.setName }}" placeholder="{{ pp.placeholder }}" style="width:100%; box-sizing:border-box; background:none; border:none; border-bottom:1px solid #2A3050; padding:8px 0; color:#E8E3D5; font-family:'Noto Serif KR',serif; font-size:16px; transition:border-color .2s">
+            <div style="display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:12px; margin-top:18px">
+              <input class="oinp" value="{{ pp.y }}" onChange="{{ pp.setY }}" inputMode="numeric" maxLength="4" placeholder="1996" style="width:100%; box-sizing:border-box; background:none; border:none; border-bottom:1px solid #2A3050; padding:8px 0; color:#E8E3D5; font-family:'Cinzel',serif; font-size:19px; letter-spacing:.05em; transition:border-color .2s">
+              <input class="oinp" value="{{ pp.m }}" onChange="{{ pp.setM }}" inputMode="numeric" maxLength="2" placeholder="07" style="width:100%; box-sizing:border-box; background:none; border:none; border-bottom:1px solid #2A3050; padding:8px 0; color:#E8E3D5; font-family:'Cinzel',serif; font-size:19px; transition:border-color .2s">
+              <input class="oinp" value="{{ pp.d }}" onChange="{{ pp.setD }}" inputMode="numeric" maxLength="2" placeholder="14" style="width:100%; box-sizing:border-box; background:none; border:none; border-bottom:1px solid #2A3050; padding:8px 0; color:#E8E3D5; font-family:'Cinzel',serif; font-size:19px; transition:border-color .2s">
+            </div>
+            <div style="display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:12px; margin-top:7px; font-family:'Noto Sans KR',sans-serif; font-size:10px; color:#7B819C"><div>년</div><div>월</div><div>일</div></div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:18px">
+              <input class="oinp" value="{{ pp.h }}" onChange="{{ pp.setH }}" inputMode="numeric" maxLength="2" placeholder="--" style="width:100%; box-sizing:border-box; background:none; border:none; border-bottom:1px solid #2A3050; padding:8px 0; color:#E8E3D5; font-family:'Cinzel',serif; font-size:19px; transition:border-color .2s">
+              <input class="oinp" value="{{ pp.min }}" onChange="{{ pp.setMin }}" inputMode="numeric" maxLength="2" placeholder="--" style="width:100%; box-sizing:border-box; background:none; border:none; border-bottom:1px solid #2A3050; padding:8px 0; color:#E8E3D5; font-family:'Cinzel',serif; font-size:19px; transition:border-color .2s">
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:7px; font-family:'Noto Sans KR',sans-serif; font-size:10px; color:#7B819C"><div>시 · 비우면 정오로 본다</div><div>분</div></div>
+          </div>
+        </sc-for>
+
+        <button onClick="{{ runCompare }}" style="width:100%; min-height:56px; margin-top:22px; background:linear-gradient(#C9A227,#A6821A); border:none; border-radius:2px; color:#14100A; font-family:'Noto Serif KR',serif; font-size:16px; font-weight:600; letter-spacing:.14em; cursor:pointer; box-shadow:0 0 0 1px rgba(201,162,39,.5), 0 10px 30px -12px rgba(201,162,39,.6)" style-hover="filter:brightness(1.08)">{{ compareCta }}</button>
+        <sc-if value="{{ cpError }}" hint-placeholder-val="{{ false }}">
+          <div style="font-family:'Noto Sans KR',sans-serif; font-size:11.5px; color:#C2554A; margin-top:12px">{{ cpError }}</div>
+        </sc-if>
+
+        <sc-if value="{{ hasCompat }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:34px">
+            <div style="position:relative; text-align:center; padding:32px 22px 30px; border:1px solid rgba(201,162,39,.22); background:linear-gradient(180deg, rgba(201,162,39,.07), rgba(201,162,39,.01) 60%, transparent); animation:riseIn .6s ease both">
+              <div style="position:absolute; inset:0; pointer-events:none; background:radial-gradient(60% 45% at 50% 0%, {{ compatGlow }}, transparent 70%)"></div>
+              <div style="position:relative">
+                <div style="display:flex; align-items:flex-start; justify-content:center; gap:20px; margin-bottom:24px">
+                  <div style="width:88px">
+                    <div style="display:flex; justify-content:center">{{ aIcon }}</div>
+                    <div style="font-size:13.5px; color:#E8E3D5; margin-top:10px">{{ aGuard }}</div>
+                    <div style="font-family:'Noto Sans KR',sans-serif; font-size:10px; color:#8A90AC; margin-top:4px">{{ aLabel }}</div>
+                  </div>
+                  <div style="font-family:'Cinzel',serif; font-size:16px; color:#B39A55; padding-top:14px">×</div>
+                  <div style="width:88px">
+                    <div style="display:flex; justify-content:center">{{ bIcon }}</div>
+                    <div style="font-size:13.5px; color:#E8E3D5; margin-top:10px">{{ bGuard }}</div>
+                    <div style="font-family:'Noto Sans KR',sans-serif; font-size:10px; color:#8A90AC; margin-top:4px">{{ bLabel }}</div>
+                  </div>
+                </div>
+                <div style="font-family:'Cinzel',serif; font-size:58px; line-height:1; color:#F2ECD9; letter-spacing:.02em">{{ compatScore }}</div>
+                <div style="font-family:'Cinzel',serif; font-size:9.5px; letter-spacing:.36em; color:#B39A55; margin-top:12px">OUT OF 100</div>
+                <div style="width:26px; height:1px; background:rgba(201,162,39,.5); margin:22px auto"></div>
+                <div style="font-size:21px; font-weight:600; letter-spacing:.1em; color:{{ compatGodColor }}">{{ compatBand }}</div>
+                <p style="margin:14px auto 0; max-width:330px; font-size:13.5px; line-height:2; color:#B9BDD0; font-weight:300; text-wrap:pretty">{{ compatText }}</p>
+              </div>
+            </div>
+
+            <div style="margin-top:14px; border:1px solid rgba(255,255,255,.09); background:#0E1224; animation:riseIn .6s ease .08s both">
+              <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 18px; border-bottom:1px solid rgba(255,255,255,.07)">
+                <div>
+                  <div style="font-family:'Cinzel',serif; font-size:9.5px; letter-spacing:.28em; color:#B39A55">FIVE MEASURES</div>
+                  <div style="font-size:15px; font-weight:600; letter-spacing:.06em; margin-top:5px">판정의 근거</div>
+                </div>
+                <div style="font-family:'Noto Sans KR',sans-serif; font-size:9.5px; color:#7B819C; text-align:right">가중 합산<br>100점 만점</div>
+              </div>
+              <sc-for list="{{ compatParts }}" as="c" hint-placeholder-count="5">
+                <div style="padding:16px 18px; border-bottom:1px solid rgba(255,255,255,.04)">
+                  <div style="display:flex; justify-content:space-between; align-items:baseline; gap:12px">
+                    <div style="font-size:14px; color:#E8E3D5; letter-spacing:.03em">{{ c.label }}</div>
+                    <div style="flex:none; font-family:'Cinzel',serif; font-size:12.5px; color:#B39A55">{{ c.score }} / {{ c.max }}</div>
+                  </div>
+                  <div style="height:4px; background:rgba(255,255,255,.06); margin:11px 0; position:relative">
+                    <div style="position:absolute; top:0; left:0; bottom:0; width:{{ c.pct }}; background:{{ c.color }}"></div>
+                  </div>
+                  <div style="font-family:'Noto Sans KR',sans-serif; font-size:11.5px; line-height:1.85; color:#8A90AC; font-weight:300; text-wrap:pretty">{{ c.note }}</div>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="margin-top:14px; border:1px solid rgba(255,255,255,.09); background:#0E1224; padding:18px; animation:riseIn .6s ease .16s both">
+              <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px">
+                <div style="font-family:'Noto Sans KR',sans-serif; font-size:9.5px; letter-spacing:.2em; color:#B39A55">합산 오행 十六字</div>
+                <div style="font-family:'Noto Sans KR',sans-serif; font-size:9.5px; color:#7B819C">두 원국 열여섯 글자</div>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:9px">
+                <sc-for list="{{ compatElements }}" as="e" hint-placeholder-count="5">
+                  <div style="display:grid; grid-template-columns:44px 1fr 22px; gap:10px; align-items:center">
+                    <div style="font-family:'Noto Sans KR',sans-serif; font-size:11px; color:{{ e.labelColor }}">{{ e.hanja }} {{ e.name }}</div>
+                    <div style="height:5px; background:rgba(255,255,255,.06); position:relative">
+                      <div style="position:absolute; top:0; left:0; bottom:0; width:{{ e.width }}; background:{{ e.color }}"></div>
+                    </div>
+                    <div style="font-family:'Cinzel',serif; font-size:12px; text-align:right; color:{{ e.labelColor }}">{{ e.count }}</div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="margin-top:16px; padding-top:14px; border-top:1px solid rgba(255,255,255,.06); display:grid; grid-template-columns:1fr 1fr; gap:12px; font-family:'Noto Sans KR',sans-serif; font-size:10.5px; color:#7B819C">
+                <div>함께 성한 기운 <span style="color:#E8E3D5">{{ compatStrong }}</span></div>
+                <div style="text-align:right">함께 빈 기운 <span style="color:#E8E3D5">{{ compatWeak }}</span></div>
+              </div>
+            </div>
+
+            <div style="margin-top:14px; display:flex; gap:16px; align-items:flex-start; padding:22px 20px; border:1px solid rgba(255,255,255,.07); background:rgba(255,255,255,.02); animation:riseIn .6s ease .24s both">
+              <div style="flex:none; margin-top:2px">{{ compatGodIcon }}</div>
+              <div>
+                <div style="font-family:'Noto Sans KR',sans-serif; font-size:9.5px; letter-spacing:.24em; color:#B39A55; margin-bottom:8px">이 연을 주관하는 신</div>
+                <div style="font-size:18px; font-weight:600; letter-spacing:.05em; color:{{ compatGodColor }}; margin-bottom:11px">{{ compatGod }}</div>
+                <p style="margin:0; font-size:13px; line-height:1.95; color:#9BA0BA; font-weight:300; text-wrap:pretty">{{ compatGodNote }}</p>
+              </div>
+            </div>
+
+            <button onClick="{{ openCompatShare }}" style="width:100%; min-height:52px; margin-top:20px; background:linear-gradient(#C9A227,#A6821A); border:none; border-radius:2px; color:#14100A; font-family:'Noto Serif KR',serif; font-size:14px; font-weight:600; letter-spacing:.1em; cursor:pointer" style-hover="filter:brightness(1.08)">궁합 공유 카드</button>
+            <button onClick="{{ resetCompare }}" style="width:100%; min-height:48px; margin-top:10px; background:none; border:none; color:#8A90AC; font-family:'Noto Sans KR',sans-serif; font-size:12.5px; cursor:pointer">다른 두 사람 비교하기</button>
+          </div>
+        </sc-if>
+      </div>
+    </sc-if>
+  </div>
+
+  <!-- ══ 공유 오버레이 ══ -->
+  <sc-if value="{{ shareOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:relative; z-index:40; min-height:100%; box-sizing:border-box; display:flex; flex-direction:column; animation:fadeIn .3s ease both">
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:20px 22px 14px; flex:none">
+        <div style="font-family:'Noto Sans KR',sans-serif; font-size:10.5px; letter-spacing:.18em; color:#B39A55">{{ shareTitle }}</div>
+        <button onClick="{{ closeShare }}" style="background:none; border:none; padding:0; color:#8A90AC; font-size:20px; line-height:1; cursor:pointer">×</button>
+      </div>
+      <sc-if value="{{ manyShareTabs }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex; gap:7px; padding:0 22px 16px; flex:none">
+        <sc-for list="{{ shareTabs }}" as="t" hint-placeholder-count="2">
+          <button onClick="{{ t.on }}" style="flex:1; min-height:40px; padding:0 4px; background:{{ t.bg }}; border:1px solid {{ t.bd }}; border-radius:2px; color:{{ t.fg }}; font-family:'Noto Sans KR',sans-serif; font-size:11px; cursor:pointer; transition:all .18s">{{ t.label }}</button>
+        </sc-for>
+      </div>
+      </sc-if>
+      <div class="oq" style="flex:1; display:flex; align-items:flex-start; justify-content:center; padding:4px 22px 10px">
+        <div style="transform:scale({{ shareScale }}); transform-origin:top center">
+
+          <!-- 스토리 9:16 -->
+          <sc-if value="{{ isStory }}" hint-placeholder-val="{{ true }}">
+            <div style="width:360px; height:640px; position:relative; overflow:hidden; background:radial-gradient(120% 65% at 50% -5%, #232A4C, #12162A 50%, #080A14 100%); box-shadow:0 30px 70px -30px rgba(0,0,0,.9)">
+              <div style="position:absolute; inset:0; opacity:.5; background-image:radial-gradient(#C9C7E0 1px, transparent 1.2px); background-size:40px 46px; mask-image:linear-gradient(#000, transparent 65%); -webkit-mask-image:linear-gradient(#000, transparent 65%)"></div>
+              <div style="position:absolute; inset:0; background:radial-gradient(55% 32% at 50% 26%, {{ guardGlow }}, transparent 72%)"></div>
+              <div style="position:relative; height:100%; box-sizing:border-box; padding:40px 34px 30px; display:flex; flex-direction:column; text-align:center; color:#E8E3D5">
+                <div style="font-family:'Cinzel',serif; font-size:9px; letter-spacing:.4em; color:#B39A55">ORACLE OF THE GODS</div>
+                <div style="display:flex; justify-content:center; margin:44px 0 20px">{{ shareIcon }}</div>
+                <div style="font-family:'Noto Sans KR',sans-serif; font-size:10.5px; letter-spacing:.26em; color:{{ guardColor }}">{{ guardSign }}의 수호신</div>
+                <div style="font-size:38px; font-weight:600; letter-spacing:.1em; margin-top:12px; color:#F5F0DE">{{ guardName }}</div>
+                <div style="width:24px; height:1px; background:rgba(201,162,39,.6); margin:24px auto"></div>
+                <div style="font-size:14.5px; line-height:2.05; font-weight:300; color:#CBCFE0; text-wrap:pretty">{{ pullQuote }}</div>
+                <div style="flex:1"></div>
+                <div style="display:flex; justify-content:center; gap:16px; padding:18px 0; border-top:1px solid rgba(201,162,39,.2); border-bottom:1px solid rgba(201,162,39,.2)">
+                  <sc-for list="{{ elements }}" as="e" hint-placeholder-count="5">
+                    <div style="text-align:center">
+                      <div style="font-family:'Cinzel',serif; font-size:15px; color:{{ e.color }}">{{ e.hanja }}</div>
+                      <div style="font-family:'Cinzel',serif; font-size:11px; color:#7B819C; margin-top:4px">{{ e.count }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px; font-family:'Noto Sans KR',sans-serif; font-size:10px; color:#8A90AC">
+                  <div>일주 {{ dayGanjiLabel }}</div>
+                  <div style="font-family:'Cinzel',serif; letter-spacing:.16em; color:#B39A55">ORACLE.KR</div>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+
+          <!-- 궁합 스토리 9:16 -->
+          <sc-if value="{{ isCompatStory }}" hint-placeholder-val="{{ false }}">
+            <div style="width:360px; height:640px; position:relative; overflow:hidden; background:radial-gradient(120% 65% at 50% -5%, #232A4C, #12162A 50%, #080A14 100%); box-shadow:0 30px 70px -30px rgba(0,0,0,.9)">
+              <div style="position:absolute; inset:0; opacity:.5; background-image:radial-gradient(#C9C7E0 1px, transparent 1.2px); background-size:40px 46px; mask-image:linear-gradient(#000, transparent 65%); -webkit-mask-image:linear-gradient(#000, transparent 65%)"></div>
+              <div style="position:absolute; inset:0; background:radial-gradient(58% 34% at 50% 24%, {{ compatGlow }}, transparent 72%)"></div>
+              <div style="position:relative; height:100%; box-sizing:border-box; padding:34px 30px 26px; display:flex; flex-direction:column; text-align:center; color:#E8E3D5">
+                <div style="font-family:'Cinzel',serif; font-size:9px; letter-spacing:.38em; color:#B39A55">GODS ON THIS BOND</div>
+                <div style="display:flex; align-items:flex-start; justify-content:center; gap:14px; margin:28px 0 4px">
+                  <div style="width:84px">
+                    <div style="display:flex; justify-content:center">{{ aIcon }}</div>
+                    <div style="font-size:12.5px; margin-top:9px">{{ aGuard }}</div>
+                    <div style="font-family:'Noto Sans KR',sans-serif; font-size:9.5px; color:#8A90AC; margin-top:3px">{{ aLabel }}</div>
+                  </div>
+                  <div style="font-family:'Cinzel',serif; font-size:15px; color:#B39A55; padding-top:14px">&times;</div>
+                  <div style="width:84px">
+                    <div style="display:flex; justify-content:center">{{ bIcon }}</div>
+                    <div style="font-size:12.5px; margin-top:9px">{{ bGuard }}</div>
+                    <div style="font-family:'Noto Sans KR',sans-serif; font-size:9.5px; color:#8A90AC; margin-top:3px">{{ bLabel }}</div>
+                  </div>
+                </div>
+                <div style="font-family:'Cinzel',serif; font-size:74px; line-height:1; color:#F5F0DE; margin-top:22px">{{ compatScore }}</div>
+                <div style="font-family:'Cinzel',serif; font-size:9px; letter-spacing:.34em; color:#B39A55; margin-top:9px">OUT OF 100</div>
+                <div style="font-size:23px; font-weight:600; letter-spacing:.12em; color:{{ compatGodColor }}; margin-top:18px">{{ compatBand }}</div>
+                <div style="width:24px; height:1px; background:rgba(201,162,39,.6); margin:18px auto"></div>
+                <div style="font-size:12.5px; line-height:1.9; font-weight:300; color:#CBCFE0; text-wrap:pretty">{{ compatPull }}</div>
+                <div style="flex:1"></div>
+                <div style="display:flex; justify-content:space-between; gap:4px; padding:15px 0; border-top:1px solid rgba(201,162,39,.2); border-bottom:1px solid rgba(201,162,39,.2)">
+                  <sc-for list="{{ compatParts }}" as="c" hint-placeholder-count="5">
+                    <div style="flex:1; text-align:center">
+                      <div style="font-family:'Cinzel',serif; font-size:14px; color:{{ c.color }}">{{ c.score }}</div>
+                      <div style="font-family:'Noto Sans KR',sans-serif; font-size:8.5px; line-height:1.4; color:#8A90AC; margin-top:5px">{{ c.short }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:13px; font-family:'Noto Sans KR',sans-serif; font-size:10px; color:#7B819C">
+                  <div>주관 · {{ compatGod }}</div>
+                  <div style="font-family:'Cinzel',serif; letter-spacing:.16em; color:#B39A55">ORACLE.KR</div>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- 궁합 초대 링크 카드 -->
+          <sc-if value="{{ isCompatInvite }}" hint-placeholder-val="{{ false }}">
+            <div style="width:400px; height:210px; position:relative; overflow:hidden; background:linear-gradient(100deg, #0D1122 0%, #171D38 60%, #10142A 100%); box-shadow:0 24px 60px -28px rgba(0,0,0,.9)">
+              <div style="position:absolute; inset:0; background:radial-gradient(48% 92% at 20% 50%, {{ compatGlow }}, transparent 70%)"></div>
+              <div style="position:absolute; inset:0; opacity:.4; background-image:radial-gradient(#C9C7E0 1px, transparent 1.1px); background-size:34px 38px"></div>
+              <div style="position:relative; height:100%; box-sizing:border-box; padding:24px 26px; display:flex; align-items:center; gap:22px">
+                <div style="flex:none; text-align:center; width:96px">
+                  <div style="font-family:'Cinzel',serif; font-size:44px; line-height:1; color:#F5F0DE">{{ compatScore }}</div>
+                  <div style="font-family:'Cinzel',serif; font-size:8px; letter-spacing:.24em; color:#B39A55; margin-top:7px">OUT OF 100</div>
+                  <div style="font-size:13px; font-weight:600; letter-spacing:.06em; color:{{ compatGodColor }}; margin-top:10px">{{ compatBand }}</div>
+                </div>
+                <div style="flex:1; min-width:0; border-left:1px solid rgba(201,162,39,.22); padding-left:22px">
+                  <div style="font-family:'Cinzel',serif; font-size:8.5px; letter-spacing:.3em; color:#B39A55">YOU ARE INVITED</div>
+                  <div style="font-size:16px; font-weight:600; letter-spacing:.03em; color:#F5F0DE; margin-top:10px; line-height:1.5">{{ inviteLine }}</div>
+                  <div style="font-family:'Noto Sans KR',sans-serif; font-size:10.5px; line-height:1.6; color:#9BA0BA; margin-top:8px">{{ aGuard }} × {{ bGuard }} · 주관 {{ compatGod }}</div>
+                  <div style="margin-top:14px; display:inline-block; padding:7px 13px; border:1px solid rgba(201,162,39,.45); font-family:'Noto Sans KR',sans-serif; font-size:10.5px; color:#DCBB4A">내 사주 넣어 확인하기</div>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+      <div style="flex:none; padding:0 22px 22px">
+        <div style="display:flex; align-items:center; gap:10px; padding:11px 13px; border:1px solid rgba(255,255,255,.09); background:rgba(255,255,255,.02); margin-bottom:12px">
+          <div style="flex:1; min-width:0; font-family:'Cinzel',serif; font-size:11.5px; letter-spacing:.04em; color:#9BA0BA; overflow:hidden; text-overflow:ellipsis; white-space:nowrap">{{ shareLinkText }}</div>
+          <button onClick="{{ copyLink }}" style="flex:none; min-height:36px; padding:0 13px; background:none; border:1px solid rgba(201,162,39,.4); border-radius:2px; color:#DCBB4A; font-family:'Noto Sans KR',sans-serif; font-size:11px; cursor:pointer; transition:all .18s" style-hover="background:rgba(201,162,39,.12)">{{ linkLabel }}</button>
+        </div>
+        <button onClick="{{ openInstagram }}" style="width:100%; min-height:52px; background:linear-gradient(#C9A227,#A6821A); border:none; border-radius:2px; color:#14100A; font-family:'Noto Serif KR',serif; font-size:14.5px; font-weight:600; letter-spacing:.1em; cursor:pointer" style-hover="filter:brightness(1.08)">{{ igLabel }}</button>
+        <button onClick="{{ closeShare }}" style="width:100%; min-height:46px; margin-top:8px; background:none; border:none; color:#8A90AC; font-family:'Noto Sans KR',sans-serif; font-size:12px; cursor:pointer">닫기</button>
+      </div>
+
+      <sc-if value="{{ igSaving }}" hint-placeholder-val="{{ false }}">
+        <div style="position:fixed; inset:0; z-index:50; display:flex; align-items:center; justify-content:center; background:rgba(8,10,20,.86); animation:fadeIn .2s ease both">
+          <div style="text-align:center">
+            <div style="display:flex; justify-content:center; animation:glowPulse 1.4s ease-in-out infinite">{{ flameArt }}</div>
+            <div style="font-size:14px; color:#C4C8DA; font-weight:300; margin-top:20px">카드를 사진첩에 새기는 중</div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ igReady }}" hint-placeholder-val="{{ false }}">
+        <div style="position:fixed; inset:0; z-index:50; display:flex; align-items:flex-end; background:rgba(8,10,20,.72); animation:fadeIn .2s ease both">
+          <div style="width:100%; box-sizing:border-box; padding:26px 22px 22px; background:#0E1224; border-top:1px solid rgba(201,162,39,.3); animation:riseIn .32s ease both">
+            <div style="font-family:'Cinzel',serif; font-size:9.5px; letter-spacing:.3em; color:#B39A55">SAVED TO PHOTOS</div>
+            <div style="font-size:17px; font-weight:600; letter-spacing:.03em; color:#F2ECD9; margin-top:11px">사진첩에 저장했습니다</div>
+            <p style="margin:10px 0 0; font-family:'Noto Sans KR',sans-serif; font-size:12px; line-height:1.85; color:#8A90AC; font-weight:300; text-wrap:pretty">인스타그램은 외부 앱이 스토리에 이미지를 직접 넣을 수 없습니다. 스토리를 열고 방금 저장한 카드를 고르면 됩니다. {{ igLinkNote }}</p>
+
+            <sc-if value="{{ igNeedsLink }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex; align-items:center; gap:10px; margin-top:14px; padding:11px 13px; border:1px solid rgba(201,162,39,.28); background:rgba(255,255,255,.02)">
+                <div style="flex:1; min-width:0; font-family:'Cinzel',serif; font-size:11.5px; letter-spacing:.04em; color:#9BA0BA; overflow:hidden; text-overflow:ellipsis; white-space:nowrap">{{ shareLinkText }}</div>
+                <button onClick="{{ copyLink }}" style="flex:none; min-height:36px; padding:0 13px; background:none; border:1px solid rgba(201,162,39,.4); border-radius:2px; color:#DCBB4A; font-family:'Noto Sans KR',sans-serif; font-size:11px; cursor:pointer; transition:all .18s" style-hover="background:rgba(201,162,39,.12)">{{ linkLabel }}</button>
+              </div>
+            </sc-if>
+            <button onClick="{{ launchInstagram }}" style="width:100%; min-height:52px; margin-top:20px; background:linear-gradient(#C9A227,#A6821A); border:none; border-radius:2px; color:#14100A; font-family:'Noto Serif KR',serif; font-size:14.5px; font-weight:600; letter-spacing:.1em; cursor:pointer" style-hover="filter:brightness(1.08)">인스타그램 열기</button>
+            <button onClick="{{ closeIg }}" style="width:100%; min-height:44px; margin-top:6px; background:none; border:none; color:#8A90AC; font-family:'Noto Sans KR',sans-serif; font-size:12px; cursor:pointer">나중에</button>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:420,&quot;height&quot;:900},&quot;tone&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;grave&quot;,&quot;refined&quot;],&quot;default&quot;:&quot;grave&quot;,&quot;tsType&quot;:&quot;'grave' | 'refined'&quot;,&quot;section&quot;:&quot;톤&quot;},&quot;screen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;landing&quot;,&quot;input&quot;,&quot;result&quot;,&quot;archive&quot;,&quot;compare&quot;],&quot;default&quot;:&quot;landing&quot;,&quot;tsType&quot;:&quot;'landing' | 'input' | 'result' | 'archive' | 'compare'&quot;,&quot;section&quot;:&quot;시작 화면&quot;},&quot;showEvidence&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;결과&quot;},&quot;variant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;mobile&quot;,&quot;desktop&quot;],&quot;default&quot;:&quot;desktop&quot;,&quot;tsType&quot;:&quot;'mobile' | 'desktop'&quot;,&quot;section&quot;:&quot;레이아웃&quot;}}">
+const EL_COLOR = { '목': '#6FA37A', '화': '#C2554A', '토': '#B39158', '금': '#B8BFC6', '수': '#5A7FB8' };
+const EL_HANJA = { '목': '木', '화': '火', '토': '土', '금': '金', '수': '水' };
+const ELS = ['목', '화', '토', '금', '수'];
+
+const ICONS = {
+  '제우스': 'M14.5 2 L6.5 13.5 H11 L9.5 22 L18 10 H13.2 Z',
+  '헤라': 'M4 19 H20 M4 19 L6 7.5 L9.6 12.5 L12 4.5 L14.4 12.5 L18 7.5 L20 19',
+  '아프로디테': 'M3.2 18.5 a8.8 8.8 0 0 1 17.6 0 Z M12 18.5 V6.2 M7.6 18.5 L9.6 7.4 M16.4 18.5 L14.4 7.4',
+  '아레스': 'M12 2.2 L14.2 6 V15 H9.8 V6 Z M8 15 H16 M12 15 V21.5 M10.2 18.4 H13.8',
+  '헤르메스': 'M12 2.5 V21.5 M8 6.4 c2.6 2.4 5.4 2.4 8 0 M8 11.2 c2.6 2.4 5.4 2.4 8 0 M8 16 c2.6 2.4 5.4 2.4 8 0 M9.4 3.6 L12 2.5 L14.6 3.6',
+  '아폴론': 'M12 6.6 a5.4 5.4 0 1 0 0 10.8 a5.4 5.4 0 0 0 0-10.8 M12 1.5 V4 M12 20 V22.5 M1.5 12 H4 M20 12 H22.5 M4.6 4.6 L6.4 6.4 M17.6 17.6 L19.4 19.4 M19.4 4.6 L17.6 6.4 M6.4 17.6 L4.6 19.4',
+  '아르테미스': 'M15.8 2.6 a9.6 9.6 0 1 0 0 18.8 a7.4 7.4 0 1 1 0-18.8 M4.5 19.5 L19.5 4.5 M19.5 4.5 H15.2 M19.5 4.5 V8.8',
+  '아테나': 'M8.6 10.4 a2.5 2.5 0 1 0 0 .1 M15.4 10.4 a2.5 2.5 0 1 0 0 .1 M4.6 8.4 L3 4.6 L6.6 6.2 M19.4 8.4 L21 4.6 L17.4 6.2 M12 12.6 V15 M5 9 c0 7 3.2 11 7 11 s7-4 7-11',
+  '포세이돈': 'M12 21.8 V8 M5.6 8 V3.2 M18.4 8 V3.2 M12 8 V2.6 M5.6 8 H18.4 M9 21.8 H15',
+  '데메테르': 'M12 21.5 V7 M12 7 c-2.6-1.4-3.6-3.4-3.4-5 2.2.2 3.4 2 3.4 5 M12 7 c2.6-1.4 3.6-3.4 3.4-5-2.2.2-3.4 2-3.4 5 M12 12 c-2.4-1.2-3.4-3-3.2-4.6 2 .2 3.2 1.8 3.2 4.6 M12 12 c2.4-1.2 3.4-3 3.2-4.6-2 .2-3.2 1.8-3.2 4.6 M12 17 c-2.2-1-3.2-2.8-3-4.2 1.8.2 3 1.6 3 4.2 M12 17 c2.2-1 3.2-2.8 3-4.2-1.8.2-3 1.6-3 4.2',
+  '헤파이스토스': 'M4.5 6 H14.5 V11 H4.5 Z M14.5 8.5 H19.5 M11 11 L9.4 21.5 M7.6 21.5 H11.6',
+  '디오니소스': 'M12 2.5 V6.5 M12 6.5 c2.4-1.6 4.4-1.8 5.6-1.2 M9.2 9 a2.1 2.1 0 1 0 0 .1 M14.8 9 a2.1 2.1 0 1 0 0 .1 M12 12.6 a2.1 2.1 0 1 0 0 .1 M7.4 13.4 a2.1 2.1 0 1 0 0 .1 M16.6 13.4 a2.1 2.1 0 1 0 0 .1 M9.6 17.2 a2.1 2.1 0 1 0 0 .1 M14.4 17.2 a2.1 2.1 0 1 0 0 .1 M12 20.8 a1.8 1.8 0 1 0 0 .1',
+  '크로노스': 'M5.5 2.5 H18.5 M5.5 21.5 H18.5 M6.4 2.5 C6.4 8 12 10.6 12 12 C12 13.4 6.4 16 6.4 21.5 M17.6 2.5 C17.6 8 12 10.6 12 12 C12 13.4 17.6 16 17.6 21.5'
+};
+
+function icon(god, size, color, stroke) {
+  const d = ICONS[god] || ICONS['제우스'];
+  return React.createElement('svg', {
+    width: size, height: size, viewBox: '0 0 24 24', fill: 'none',
+    style: { display: 'block', filter: 'drop-shadow(0 0 12px ' + color + '55)' }
+  }, React.createElement('path', {
+    d: d, stroke: color, strokeWidth: stroke || 1.1,
+    strokeLinecap: 'round', strokeLinejoin: 'round'
+  }));
+}
+
+const PHRASES = [
+  ['올림포스에 전갈이 도착했습니다…', '여덟 글자를 세우는 중'],
+  ['제우스가 번개를 내려놓고 자리에 앉았습니다.', '절기와 간지를 판정하는 중'],
+  ['모이라이가 네 실의 길이를 재고 있습니다…', '오행과 십신을 집계하는 중'],
+  ['일곱 별이 태어난 밤의 자리로 돌아갑니다.', '황경을 계산하는 중'],
+  ['신들이 신탁을 봉인하고 있습니다…', '문장을 새기는 중']
+];
+
+const ARCHIVE_KEY = 'oracle.archive.v2';
+const pad2 = (n) => String(n).padStart(2, '0');
+const blankPerson = () => ({ name: '', y: '', m: '', d: '', h: '', min: '' });
+
+class Component extends DCLogic {
+  state = {
+    screen: 'landing',
+    name: '', y: '', m: '', d: '', h: '', min: '',
+    gender: null, precise: true, unknownTime: false,
+    error: '', phrase: 0, result: null,
+    share: false, shareTab: 'story', copied: false,
+    resultTab: 'life', pillarsOpen: false, natalOpen: false, shareMode: 'reading',
+    linkCopied: false, igStep: null, copyFailed: false, linkFailed: false, igLinkCopied: false,
+    openOracle: 0,
+    archive: [], cp: [blankPerson(), blankPerson()],
+    cpError: '', compat: null, cpA: null, cpB: null
+  };
+
+  componentDidMount() {
+    this.setState({ archive: this.loadArchive() });
+    this.applyScreenProp();
+  }
+
+  componentDidUpdate(prev) {
+    if (prev.screen !== this.props.screen) this.applyScreenProp();
+  }
+
+  componentWillUnmount() { clearInterval(this._t); clearTimeout(this._done); }
+
+  applyScreenProp = () => {
+    const s = this.props.screen;
+    if (!s || s === 'landing') return this.setState({ screen: 'landing' });
+    if (s === 'input' || s === 'archive') return this.setState({ screen: s });
+    if (s === 'result') {
+      return this.setState({ y: '1996', m: '07', d: '14', h: '09', min: '40', unknownTime: false, gender: 'f' }, () => {
+        const r = this.compute();
+        if (r) this.setState({ result: r, screen: 'result' });
+      });
+    }
+    if (s === 'compare') {
+      const cp = [
+        { name: '', y: '1996', m: '07', d: '14', h: '09', min: '40' },
+        { name: '', y: '1994', m: '03', d: '02', h: '21', min: '10' }
+      ];
+      return this.setState({ screen: 'compare', cp }, this.runCompare);
+    }
+  };
+
+  loadArchive = () => {
+    try { const raw = window.localStorage.getItem(ARCHIVE_KEY); return raw ? JSON.parse(raw) : []; }
+    catch (e) { return []; }
+  };
+
+  saveArchive = (list) => {
+    try { window.localStorage.setItem(ARCHIVE_KEY, JSON.stringify(list)); } catch (e) { /* noop */ }
+    this.setState({ archive: list });
+  };
+
+  pushArchive = (r) => {
+    const g = r.guardian;
+    const entry = {
+      id: 'a' + Date.now(), name: this.state.name.trim(),
+      y: r.y, m: r.m, d: r.d, h: r.h, mi: r.mi, unk: r.unk, precise: this.state.precise,
+      god: g.god, color: g.color, sign: g.sign, gender: this.state.gender,
+      ganji: r.saju.pillars[2].ganji, maxEl: ELS[r.saju.maxEl], ts: Date.now()
+    };
+    const rest = this.loadArchive().filter((e) => !(e.y === entry.y && e.m === entry.m && e.d === entry.d && e.h === entry.h && e.mi === entry.mi && e.name === entry.name));
+    this.saveArchive([entry].concat(rest).slice(0, 20));
+  };
+
+  openEntry = (e) => {
+    this.setState({
+      name: e.name || '', y: String(e.y), m: pad2(e.m), d: pad2(e.d),
+      h: e.unk ? '' : pad2(e.h), min: e.unk ? '' : pad2(e.mi),
+      unknownTime: !!e.unk, precise: !!e.precise, share: false, error: '',
+      gender: e.gender || null, resultTab: 'life'
+    }, () => {
+      const r = this.compute();
+      if (r) this.setState({ result: r, screen: 'result' });
+    });
+  };
+
+  goArchive = () => this.setState({ screen: 'archive', share: false, archive: this.loadArchive() });
+
+  goCompare = () => {
+    const cp = this.state.cp.slice();
+    if (this.state.y && !cp[0].y) {
+      cp[0] = { name: this.state.name, y: this.state.y, m: this.state.m, d: this.state.d, h: this.state.h, min: this.state.min };
+    }
+    this.setState({ screen: 'compare', cp, share: false });
+  };
+
+  setCp = (i, k) => (ev) => {
+    const v = ev && ev.target ? ev.target.value : ev;
+    const cp = this.state.cp.map((p, ix) => (ix === i ? { ...p, [k]: v } : p));
+    this.setState({ cp, cpError: '' });
+  };
+
+  personData = (p) => {
+    const E = window.OracleEngine;
+    if (!E) return null;
+    const y = parseInt(p.y, 10), m = parseInt(p.m, 10), d = parseInt(p.d, 10);
+    if (!(y >= 1900 && y <= 2026) || !(m >= 1 && m <= 12)) return null;
+    const dim = new Date(y, m, 0).getDate();
+    if (!(d >= 1 && d <= dim)) return null;
+    const unk = p.h === '';
+    const h = unk ? 12 : (parseInt(p.h, 10) || 0);
+    const mi = unk ? 0 : (parseInt(p.min, 10) || 0);
+    if (h < 0 || h > 23 || mi < 0 || mi > 59) return null;
+    return {
+      saju: E.saju(y, m, d, h, mi, { trueSolar: true, lon: 126.978 }),
+      natal: E.natal(y, m, d, h, mi), guardian: E.guardian(m, d),
+      y, m, d, h, mi, unk, name: (p.name || '').trim()
+    };
+  };
+
+  runCompare = () => {
+    if (!window.OracleCompat) return this.setState({ cpError: '궁합 엔진을 부르는 중이다. 잠시 후 다시 시도하라.' });
+    const A = this.personData(this.state.cp[0]);
+    const B = this.personData(this.state.cp[1]);
+    if (!A || !B) return this.setState({ cpError: '두 사람의 생년월일을 바르게 적어야 판정하리라. 시각은 비울 수 있다.' });
+    this.setState({ cpA: A, cpB: B, compat: window.OracleCompat.compare(A, B, this.tone()), cpError: '' });
+  };
+
+  set = (k) => (e) => {
+    const v = e && e.target ? e.target.value : e;
+    this.setState({ [k]: v, error: '' });
+  };
+
+  compute = () => {
+    const E = window.OracleEngine, C = window.OracleCopy;
+    if (!E || !C) return null;
+    const y = parseInt(this.state.y, 10), m = parseInt(this.state.m, 10), d = parseInt(this.state.d, 10);
+    const unk = this.state.unknownTime;
+    const h = unk ? 12 : (parseInt(this.state.h, 10) || 0);
+    const mi = unk ? 0 : (parseInt(this.state.min, 10) || 0);
+    const s = E.saju(y, m, d, h, mi, { trueSolar: this.state.precise, lon: 126.978 });
+    const n = E.natal(y, m, d, h, mi);
+    const g = E.guardian(m, d);
+    if (!C) return null;
+    return { saju: s, natal: n, guardian: g, y, m, d, h, mi, unk };
+  };
+
+  copyOf = (r) => {
+    if (!r || !window.OracleCopy) return null;
+    return window.OracleCopy.build(
+      { saju: r.saju, natal: r.natal, guardian: r.guardian, name: this.state.name.trim() },
+      this.tone()
+    );
+  };
+
+  tone = () => (this.props.tone === 'refined' ? 'refined' : 'grave');
+
+  personaOf = (r) => {
+    if (!r || !window.OraclePersona || !window.OracleYear) return null;
+    try {
+      const du = window.OracleYear.daeun({ y: r.y, m: r.m, d: r.d }, r.saju, this.state.gender);
+      return window.OraclePersona.read(r.saju, r.natal, du, r.y, this.tone());
+    } catch (e) { return null; }
+  };
+
+  yearOf = (r) => {
+    if (!r || !window.OracleYear) return null;
+    try {
+      return window.OracleYear.reading(r.saju, r.natal, this.state.gender, { y: r.y, m: r.m, d: r.d }, this.tone());
+    } catch (e) { return null; }
+  };
+
+  submit = () => {
+    const y = parseInt(this.state.y, 10), m = parseInt(this.state.m, 10), d = parseInt(this.state.d, 10);
+    if (!this.state.gender) return this.setState({ error: '대운은 년간 음양과 성별로 순행·역행이 갈리니, 성별을 밝혀야 하리라.' });
+    if (!(y >= 1900 && y <= 2026)) return this.setState({ error: '1900년부터 2026년 사이의 해를 적으라.' });
+    if (!(m >= 1 && m <= 12)) return this.setState({ error: '월은 1에서 12 사이여야 하니라.' });
+    const dim = new Date(y, m, 0).getDate();
+    if (!(d >= 1 && d <= dim)) return this.setState({ error: y + '년 ' + m + '월은 ' + dim + '일까지 있느니라.' });
+    if (!this.state.unknownTime) {
+      const hh = parseInt(this.state.h, 10), mm = parseInt(this.state.min, 10);
+      if (this.state.h !== '' && !(hh >= 0 && hh <= 23)) return this.setState({ error: '시는 0에서 23 사이여야 하니라.' });
+      if (this.state.min !== '' && !(mm >= 0 && mm <= 59)) return this.setState({ error: '분은 0에서 59 사이여야 하니라.' });
+    }
+    const result = this.compute();
+    if (!result) return this.setState({ error: '신탁 엔진을 불러오는 중이다. 잠시 후 다시 청하라.' });
+    this.pushArchive(result);
+    this.setState({ screen: 'loading', phrase: 0, error: '', result });
+    clearInterval(this._t); clearTimeout(this._done);
+    this._t = setInterval(() => this.setState((s) => ({ phrase: (s.phrase + 1) % PHRASES.length })), 780);
+    this._done = setTimeout(() => { clearInterval(this._t); this.setState({ screen: 'result' }); }, 3400);
+  };
+
+  copyToClipboard = (txt) => {
+    try {
+      const p = navigator.clipboard && navigator.clipboard.writeText(txt);
+      return p && p.then ? p.then(() => true, () => false) : Promise.resolve(false);
+    } catch (e) { return Promise.resolve(false); }
+  };
+
+  copyText = () => {
+    const cc = this.copyOf(this.state.result);
+    if (!cc) return;
+    const txt = [cc.greeting].concat(cc.sections.map((s) => '[' + s.label + ' — ' + s.god + ']\n' + s.paragraphs.join('\n'))).join('\n\n');
+    this.copyToClipboard(txt).then((ok) => {
+      if (!ok) return this.setState({ copyFailed: true }, () => setTimeout(() => this.setState({ copyFailed: false }), 2400));
+      this.setState({ copied: true });
+      setTimeout(() => this.setState({ copied: false }), 1800);
+    });
+  };
+
+  shareLink = () => {
+    const st = this.state;
+    const base = 'https://oracle.kr/';
+    if (st.shareMode === 'compat' && st.cpA && st.cpB) {
+      const enc = (p) => p.y + '' + pad2(p.m) + pad2(p.d) + (p.unk ? '' : pad2(p.h) + pad2(p.mi));
+      return base + 'pair/' + enc(st.cpA) + '-' + enc(st.cpB);
+    }
+    const r = st.result;
+    if (!r) return base;
+    return base + 'r/' + r.y + pad2(r.m) + pad2(r.d) + (r.unk ? '' : pad2(r.h) + pad2(r.mi));
+  };
+
+  inviteMessage = () => {
+    const st = this.state;
+    const link = this.shareLink();
+    if (st.shareMode === 'compat' && st.cpA && st.cpB) {
+      const me = (st.cpA.name || '내').trim();
+      const k = st.compat;
+      return [
+        me + '와 그대의 연을 신들에게 물었습니다.',
+        k ? '판정 — ' + k.bandTitle + ' ' + k.score + '/100 · 주관 ' + k.god : '',
+        '그대의 사주를 넣으면 무엇이 어긋났는지 나옵니다.',
+        link
+      ].filter(Boolean).join('\n');
+    }
+    const r = st.result;
+    const pe = r ? this.personaOf(r) : null;
+    return [
+      '신들이 나를 이렇게 보았습니다.',
+      pe ? '"' + pe.headline + '"' : '',
+      '수호신 ' + (r ? r.guardian.god : '') + ' · 생년월일시로 계산합니다.',
+      link
+    ].filter(Boolean).join('\n');
+  };
+
+  copyLink = () => {
+    this.copyToClipboard(this.inviteMessage()).then((ok) => {
+      if (!ok) return this.setState({ linkFailed: true }, () => setTimeout(() => this.setState({ linkFailed: false }), 2400));
+      this.setState({ linkCopied: true });
+      setTimeout(() => this.setState({ linkCopied: false }), 1800);
+    });
+  };
+
+  // 인스타그램 스토리는 이미지를 먼저 생성해 넣어야 하므로,
+  // 사진첩 저장 → 스토리 열기 2단계로 둔다. 네이티브에서는 단일 공유시트가 된다.
+  openInstagram = () => {
+    this.setState({ igStep: 'saving', igLinkCopied: false });
+    this.copyToClipboard(this.inviteMessage()).then((ok) => this.setState({ igLinkCopied: ok }));
+    setTimeout(() => this.setState({ igStep: 'ready' }), 900);
+  };
+
+  launchInstagram = () => {
+    try { window.open('https://www.instagram.com/', '_blank', 'noopener'); } catch (e) { /* noop */ }
+    this.setState({ igStep: null });
+  };
+
+  renderVals() {
+    const st = this.state;
+    const isDesktop = this.props.variant === 'desktop';
+    const r = st.result;
+    const cpy = this.copyOf(r);
+    const g = r ? r.guardian : { god: '제우스', color: '#C9A227', sign: '사수자리', symbol: '번개' };
+
+    const elements = r ? ELS.map((name, i) => ({
+      name, hanja: EL_HANJA[name], count: r.saju.elements[i],
+      color: EL_COLOR[name], labelColor: r.saju.elements[i] === 0 ? '#7B819C' : '#C4C8DA',
+      width: Math.round((r.saju.elements[i] / 8) * 100) + '%'
+    })) : [];
+
+    const pillars = r ? r.saju.pillars.slice().reverse().map((p) => ({
+      key: p.key, kr: p.kr, stemHanja: p.stemHanja, branchHanja: p.branchHanja,
+      stemTen: p.stemTen, branchTen: p.branchTen,
+      stemColor: EL_COLOR[ELS[p.stemEl]], branchColor: EL_COLOR[ELS[p.branchEl]]
+    })) : [];
+
+    const oracles = cpy ? cpy.sections.map((s, i) => {
+      const ev = i === 0 ? '일간 ' + r.saju.pillars[2].ganji + ' · ' + ELS[r.saju.maxEl] + ' ' + r.saju.elements[r.saju.maxEl] + '자 · 절기 ' + r.saju.termName
+        : i === 1 ? '금성 ' + (r.natal[3] || {}).sign + ' · 원국 재성·식상 판정'
+          : i === 2 ? '달 ' + (r.natal[1] || {}).sign + ' · 월지 ' + r.saju.pillars[1].branchHanja
+            : i === 3 ? '수성 ' + (r.natal[2] || {}).sign + ' · 목성 ' + (r.natal[5] || {}).sign
+              : '화성 ' + (r.natal[4] || {}).sign + ' · ' + ELS[r.saju.maxEl] + ' 과다';
+      return {
+        label: s.label, sub: s.sub, god: s.god, color: s.color,
+        border: 'rgba(255,255,255,.08)', tint: s.color + '0F',
+        icon: icon(s.god, 30, s.color, 1.05),
+        paragraphs: s.paragraphs, evidence: ev,
+        open: st.openOracle === i,
+        caret: st.openOracle === i ? '180deg' : '0deg',
+        headBg: st.openOracle === i ? 'rgba(255,255,255,.03)' : 'transparent',
+        godColor: st.openOracle === i ? '#F2ECD9' : '#C4C8DA',
+        toggle: () => this.setState({ openOracle: st.openOracle === i ? -1 : i }),
+        delay: (i * 70) + 'ms'
+      };
+    }) : [];
+
+    const pair = r && window.OracleEngine ? (window.OracleEngine.PAIRS[g.god] || ['헤라', '부부의 연', '']) : ['헤라', '부부의 연', ''];
+    const pairGod = window.OracleEngine ? (window.OracleEngine.ROSTER.find((x) => x.god === pair[0]) || { color: '#9C7BC4' }) : { color: '#9C7BC4' };
+
+    const genders = [['여성', 'f'], ['남성', 'm']].map(([label, key]) => {
+      const on = st.gender === key;
+      return {
+        label, on: () => this.setState({ gender: key }),
+        bg: on ? 'rgba(201,162,39,.14)' : 'transparent',
+        bd: on ? 'rgba(201,162,39,.55)' : '#2A3050',
+        fg: on ? '#DCBB4A' : '#8A90AC'
+      };
+    });
+
+    const shareTabs = (st.shareMode === 'compat'
+      ? [['궁합 스토리 9:16', 'cstory'], ['초대 링크 카드', 'cinvite']]
+      : [['스토리 9:16', 'story']]).map(([label, key]) => {
+      const on = st.shareTab === key;
+      return {
+        label, on: () => this.setState({ shareTab: key }),
+        bg: on ? 'rgba(201,162,39,.14)' : 'transparent',
+        bd: on ? 'rgba(201,162,39,.5)' : '#232945',
+        fg: on ? '#DCBB4A' : '#8A90AC'
+      };
+    });
+
+    const valid = st.y.length === 4 && st.m !== '' && st.d !== '' && !!st.gender;
+    const p = st.precise;
+    const firstOpen = cpy ? cpy.sections[0] : null;
+
+    const archive = st.archive.map((e) => ({
+      icon: icon(e.god, 32, e.color || '#C9A227', 1.05),
+      title: e.name || '이름을 감춘 자',
+      stamp: e.y + '.' + pad2(e.m) + '.' + pad2(e.d) + (e.unk ? '' : ' · ' + pad2(e.h) + ':' + pad2(e.mi)),
+      meta: e.god + ' · ' + e.sign + ' · 일주 ' + e.ganji + ' · ' + e.maxEl + ' 기운',
+      open: () => this.openEntry(e),
+      remove: () => this.saveArchive(this.state.archive.filter((x) => x.id !== e.id))
+    }));
+
+    const people = st.cp.map((pp, i) => ({
+      name: pp.name, y: pp.y, m: pp.m, d: pp.d, h: pp.h, min: pp.min,
+      setName: this.setCp(i, 'name'), setY: this.setCp(i, 'y'), setM: this.setCp(i, 'm'),
+      setD: this.setCp(i, 'd'), setH: this.setCp(i, 'h'), setMin: this.setCp(i, 'min'),
+      tag: i === 0 ? 'PERSON I' : 'PERSON II',
+      hint: i === 0 ? '나' : '상대',
+      placeholder: i === 0 ? '내 이름 (선택)' : '상대의 이름 (선택)',
+      border: i === 0 ? 'rgba(201,162,39,.28)' : 'rgba(255,255,255,.09)',
+      tagColor: i === 0 ? '#C9A227' : '#B39A55'
+    }));
+
+    const k = st.compat;
+    const yr = this.yearOf(r);
+    const pe = this.personaOf(r);
+    const SHORT = ['일간', '일지', '오행', '수호신', '천체'];
+    const resultTabs = [
+      ['인생 신탁', 'life', 'LIFETIME'],
+      ['연말 신탁', 'year', yr ? yr.curYear + ' → ' + yr.nextYear : 'TURN OF YEAR']
+    ].map(([label, key, sub]) => {
+      const on = st.resultTab === key;
+      return {
+        label, sub, on: () => this.setState({ resultTab: key }),
+        bg: on ? 'rgba(201,162,39,.16)' : 'transparent',
+        fg: on ? '#DCBB4A' : '#8A90AC',
+        subColor: on ? '#B39A55' : '#8A90AC'
+      };
+    });
+
+    return {
+      colMax: isDesktop ? '620px' : '100%',
+      topPad: isDesktop ? '30px' : '62px',
+      topPadLanding: isDesktop ? '54px' : '74px',
+      railCardW: isDesktop ? '330px' : 'min(84vw, 320px)',
+      isLanding: st.screen === 'landing', isInput: st.screen === 'input',
+      isLoading: st.screen === 'loading', isResult: st.screen === 'result' && !st.share,
+      isArchive: st.screen === 'archive' && !st.share, isCompare: st.screen === 'compare' && !st.share,
+      goInput: () => this.setState({ screen: 'input', share: false }),
+      goLanding: () => this.setState({ screen: 'landing' }),
+      submit: this.submit,
+      templeArt: this.temple(),
+      flameArt: this.flame(),
+      emptyArt: this.temple(),
+
+      steps: [
+        { n: 'I', title: '태어난 순간을 적는다', body: '생년월일과 출생 시각. 진태양시 보정을 켜면 표준시와 실제 경도차까지 반영한다.' },
+        { n: 'II', title: '계산이 먼저 돌아간다', body: '절기 기준 년·월주, 60갑자 일주, 오호둔·오서둔 시주, 오행과 십신, 그리고 일곱 천체의 황경.' },
+        { n: 'III', title: '신들이 해석한다', body: '지어낸 운세가 아니라, 계산된 데이터를 다섯 신이 각자의 목소리로 읽어낸다.' }
+      ],
+
+      fName: st.name, fY: st.y, fM: st.m, fD: st.d, fH: st.h, fMin: st.min,
+      setName: this.set('name'), setY: this.set('y'), setM: this.set('m'),
+      setD: this.set('d'), setH: this.set('h'), setMin: this.set('min'),
+      genders,
+      toggleUnknown: () => this.setState({ unknownTime: !st.unknownTime }),
+      unknownLabel: st.unknownTime ? '시간을 아는 경우' : '시간을 모른다',
+      unknownColor: st.unknownTime ? '#DCBB4A' : '#8A90AC',
+      timeOpacity: st.unknownTime ? 0.32 : 1,
+      timeDisabled: st.unknownTime,
+      togglePrecise: () => this.setState({ precise: !st.precise }),
+      preciseBorder: p ? 'rgba(201,162,39,.4)' : '#20263F',
+      preciseTrack: p ? 'rgba(201,162,39,.75)' : '#2A3050',
+      preciseKnob: p ? '#14100A' : '#8A90AC',
+      preciseKnobX: p ? '18px' : '2px',
+      preciseNote: p ? '서울 기준 약 −32분.' : '지금은 표준시 그대로 판정한다.',
+      submitDisabled: !valid,
+      ctaBg: valid ? 'linear-gradient(#C9A227,#A6821A)' : '#181D33',
+      ctaFg: valid ? '#14100A' : '#7B819C',
+      ctaCursor: valid ? 'pointer' : 'not-allowed',
+      ctaShadow: valid ? '0 0 0 1px rgba(201,162,39,.5), 0 10px 30px -12px rgba(201,162,39,.6)' : 'none',
+      ctaLabel: st.unknownTime ? '시각 없이 신탁 청하기' : '신탁을 청하다',
+      formError: st.error,
+
+      loadingPhrase: PHRASES[st.phrase][0],
+      loadingStep: PHRASES[st.phrase][1],
+
+      birthStamp: r ? r.y + '.' + String(r.m).padStart(2, '0') + '.' + String(r.d).padStart(2, '0') + (r.unk ? '' : ' · ' + String(r.h).padStart(2, '0') + ':' + String(r.mi).padStart(2, '0')) : '',
+      utStamp: r ? String(((r.h + 24 - 9) % 24)).padStart(2, '0') + ':' + String(r.mi).padStart(2, '0') : '',
+      guardName: g.god, guardSign: g.sign, guardSymbol: g.symbol, guardColor: g.color,
+      guardGlow: g.color + '30',
+      guardIcon: icon(g.god, 54, g.color, 1),
+      shareIcon: icon(g.god, 62, g.color, 1),
+      pairIcon: icon(pair[0], 34, pairGod.color, 1.05),
+      pairName: pair[0], pairRel: pair[1], pairNote: pair[2], pairColor: pairGod.color,
+      greeting: cpy ? cpy.greeting : '',
+      pullQuote: firstOpen ? firstOpen.paragraphs[firstOpen.paragraphs.length - 1] : '',
+
+      pillars, elements, natal: r ? r.natal : [], oracles,
+      termName: r ? r.saju.termName : '',
+      correctionLabel: r ? (r.saju.correctionMin ? '진태양시 ' + r.saju.hourLabel + ' (' + r.saju.correctionMin + '분)' : '표준시 그대로') : '',
+      dayStemLabel: r ? r.saju.dayStemHanja + ' ' + r.saju.dayStemKr : '',
+      dayGanjiLabel: r ? r.saju.pillars[2].ganji : '',
+      maxElLabel: r ? EL_HANJA[ELS[r.saju.maxEl]] + ' ' + ELS[r.saju.maxEl] : '',
+
+      openShare: () => this.setState({ share: true, shareMode: 'reading', shareTab: 'story' }),
+      closeShare: () => this.setState({ share: false }),
+      shareOpen: st.share,
+      shareTabs, manyShareTabs: shareTabs.length > 1,
+      shareTitle: st.shareMode === 'compat' ? '궁합 공유' : '스토리 공유',
+      isStory: st.shareTab === 'story',
+      shareScale: (st.shareTab === 'story' || st.shareTab === 'cstory') ? (isDesktop ? 0.86 : 0.78) : 1,
+      copyText: this.copyText,
+      copyLabel: st.copyFailed ? '복사하지 못했다' : st.copied ? '복사되었다' : '신탁 복사',
+      copyLink: this.copyLink,
+      linkLabel: st.linkFailed ? '복사 안 됨' : st.linkCopied ? '초대글이 복사되었다' : '초대글 복사',
+      shareLinkText: this.shareLink(),
+      openInstagram: this.openInstagram,
+      launchInstagram: this.launchInstagram,
+      closeIg: () => this.setState({ igStep: null }),
+      igSaving: st.igStep === 'saving', igReady: st.igStep === 'ready',
+      igLinkNote: st.igLinkCopied
+        ? '초대글과 링크가 함께 복사되었으니 스티커로 붙이거나 카톡에 그대로 붙이십시오.'
+        : '링크는 자동으로 복사되지 않았습니다.',
+      igNeedsLink: st.igStep === 'ready' && !st.igLinkCopied,
+      igLabel: st.shareTab === 'cstory' || st.shareTab === 'story' ? '인스타 스토리로 공유' : '인스타에 공유',
+
+      resultTabs, isLifeTab: st.resultTab === 'life', isYearTab: st.resultTab === 'year',
+
+      personaHeadline: pe ? pe.headline : '',
+      personaWhy: pe ? pe.headlineWhy : '',
+      personaMore: pe ? pe.headlineMore : '',
+      hasCollisions: !!pe,
+      collisions: pe ? pe.collisions : [],
+      strengthLabel: pe ? pe.strengthLabel : '',
+      strengthNote: pe ? pe.strengthNote : '',
+      personaGroups: pe ? pe.groups.map((g) => ({
+        name: g.name, count: g.count, width: g.width,
+        barH: Math.max(2, Math.round((g.count / 4) * 46)) + 'px',
+        color: g.heavy ? '#C9A227' : g.empty ? 'transparent' : '#5B6180',
+        labelColor: g.heavy ? '#DCBB4A' : g.empty ? '#7B819C' : '#C4C8DA'
+      })) : [],
+      hasPast: !!(pe && pe.past.length),
+      personaPast: pe ? pe.past : [],
+      togglePillars: () => this.setState({ pillarsOpen: !st.pillarsOpen }),
+      toggleNatal: () => this.setState({ natalOpen: !st.natalOpen }),
+      pillarsOpen: st.pillarsOpen, natalOpen: st.natalOpen,
+      pillarsCaret: st.pillarsOpen ? '180deg' : '0deg',
+      natalCaret: st.natalOpen ? '180deg' : '0deg',
+      pillarsBorder: st.pillarsOpen ? 'rgba(255,255,255,.07)' : 'transparent',
+      natalBorder: st.natalOpen ? 'rgba(255,255,255,.07)' : 'transparent',
+      pillarsSummary: r ? '절기 ' + r.saju.termName + ' · 일주 ' + r.saju.pillars[2].ganji : '',
+      natalSummary: r && r.natal[0] ? '태양 ' + r.natal[0].sign : '',
+
+      zeusIcon: icon('제우스', 30, '#C9A227', 1.05),
+      closerIcon: yr ? icon(yr.closer.god, 30, yr.closer.color, 1.05) : null,
+      closerName: yr ? yr.closer.god : '',
+      closerRole: yr ? yr.closer.role : '',
+      closerTag: yr ? yr.closer.tag : '',
+      closerColor: yr ? yr.closer.color : '#8A7F6A',
+      openerIcon: yr ? icon(yr.opener.god, 34, yr.opener.color, 1.05) : null,
+      openerName: yr ? yr.opener.god : '',
+      openerRole: yr ? yr.opener.role : '',
+      openerTag: yr ? yr.opener.tag : '',
+      openerColor: yr ? yr.opener.color : '#C9A227',
+      openerBorder: yr ? yr.opener.color + '4D' : 'rgba(201,162,39,.3)',
+      openerTint: yr ? yr.opener.color + '1A' : 'rgba(201,162,39,.07)',
+      yearCur: yr ? yr.curYear : '', yearNext: yr ? yr.nextYear : '',
+      yearCurGanji: yr ? yr.aGanji : '', yearNextGanji: yr ? yr.bGanji : '',
+      yearCurKr: yr ? yr.aKr : '', yearNextKr: yr ? yr.bKr : '',
+      yearCurTen: yr ? yr.aTen : '', yearNextTen: yr ? yr.bTen : '',
+      yearHeadline: yr ? yr.headline : '',
+      yearMonthsLeft: yr ? yr.monthsLeft : '',
+      yearCurParas: yr ? yr.paragraphs.cur : [],
+      yearNextParas: yr ? yr.paragraphs.next : [],
+      yearRows: yr ? yr.rows : [],
+
+      showEvidence: this.props.showEvidence !== false,
+      goArchive: this.goArchive, goCompare: this.goCompare,
+      archive, archiveEmpty: st.archive.length === 0, archiveAny: st.archive.length > 0,
+      archiveCountLabel: st.archive.length ? '(' + st.archive.length + ')' : '',
+      clearArchive: () => this.saveArchive([]),
+
+      people, cpError: st.cpError, runCompare: this.runCompare,
+      compareCta: k ? '다시 판정하기' : '궁합 판정하기',
+      resetCompare: () => this.setState({ compat: null, cpA: null, cpB: null, cp: [blankPerson(), blankPerson()] }),
+      openCompatShare: () => this.setState({ share: true, shareMode: 'compat', shareTab: 'cstory' }),
+      isCompatStory: st.shareTab === 'cstory', isCompatInvite: st.shareTab === 'cinvite',
+      hasCompat: !!k,
+      compatScore: k ? k.score : '',
+      compatBand: k ? k.bandTitle : '',
+      compatText: k ? k.bandText : '',
+      compatPull: k ? k.bandText : '',
+      inviteLine: st.cpA ? (st.cpA.name || '어느 필멸자') + '님이 그대와의 연을 신들에게 보였습니다' : '',
+      compatParts: k ? k.parts.map((x, i) => {
+        const ratio = x.score / x.max;
+        return { label: x.label, note: x.note, score: x.score, max: x.max, pct: x.pct, short: SHORT[i], color: ratio >= .75 ? '#C9A227' : ratio >= .5 ? '#B39158' : '#C2554A' };
+      }) : [],
+      compatElements: k ? k.combined.map((e) => ({
+        name: e.name, hanja: e.hanja, count: e.count, width: e.width,
+        color: EL_COLOR[e.name], labelColor: e.count === 0 ? '#7B819C' : '#C4C8DA'
+      })) : [],
+      compatStrong: k ? k.strongestLabel : '', compatWeak: k ? k.weakestLabel : '',
+      compatGod: k ? k.god : '', compatGodColor: k ? k.godColor : '#C9A227',
+      compatGodNote: k ? k.godNote : '',
+      compatGodIcon: k ? icon(k.god, 34, k.godColor, 1.05) : null,
+      compatGlow: k ? k.godColor + '30' : 'transparent',
+      aIcon: st.cpA ? icon(st.cpA.guardian.god, 42, st.cpA.guardian.color, 1) : null,
+      bIcon: st.cpB ? icon(st.cpB.guardian.god, 42, st.cpB.guardian.color, 1) : null,
+      aGuard: st.cpA ? st.cpA.guardian.god : '',
+      bGuard: st.cpB ? st.cpB.guardian.god : '',
+      aLabel: st.cpA ? (st.cpA.name || '첫째 사람') : '',
+      bLabel: st.cpB ? (st.cpB.name || '둘째 사람') : ''
+    };
+  }
+
+  temple() {
+    return React.createElement('svg', { width: 168, height: 76, viewBox: '0 0 168 76', fill: 'none' }, [
+      React.createElement('path', { key: 'p', d: 'M8 30 L84 4 L160 30', stroke: '#C9A227', strokeWidth: 1, strokeOpacity: .75, strokeLinejoin: 'round' }),
+      React.createElement('path', { key: 'a', d: 'M14 30 L84 12 L154 30 Z', stroke: '#C9A227', strokeWidth: .6, strokeOpacity: .3 }),
+      React.createElement('path', { key: 'e', d: 'M4 30 H164 M6 36 H162', stroke: '#C9A227', strokeWidth: 1, strokeOpacity: .55 }),
+      React.createElement('path', { key: 'b', d: 'M0 70 H168 M8 64 H160', stroke: '#C9A227', strokeWidth: 1, strokeOpacity: .45 }),
+      ...[20, 40, 60, 80, 100, 120, 140].map((x, i) =>
+        React.createElement('path', { key: 'c' + i, d: 'M' + x + ' 36 V64 M' + (x + 8) + ' 36 V64', stroke: '#C9A227', strokeWidth: .8, strokeOpacity: .32 })
+      )
+    ]);
+  }
+
+  flame() {
+    return React.createElement('svg', { width: 34, height: 48, viewBox: '0 0 34 48', fill: 'none' }, [
+      React.createElement('path', { key: 'o', d: 'M17 2 C24 13 29 19 29 27 C29 36 23.5 44 17 44 C10.5 44 5 36 5 27 C5 19 10 13 17 2 Z', stroke: '#C9A227', strokeWidth: 1.1, strokeLinejoin: 'round' }),
+      React.createElement('path', { key: 'i', d: 'M17 15 C21 22 23 25 23 30 C23 35.5 20.4 40 17 40 C13.6 40 11 35.5 11 30 C11 25 13 22 17 15 Z', fill: '#C9A227', fillOpacity: .32 })
+    ]);
+  }
+}
+</script>
+</body>
+</html>

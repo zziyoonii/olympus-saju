@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Noto+Serif+KR:wght@300;400;600&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #070911; }
+  a { color: #C9A227; text-decoration: none; }
+  a:hover { color: #E3C05A; }
+</style>
+</helmet>
+
+<div style="min-height:100vh; box-sizing:border-box; padding:44px 52px 72px; background:radial-gradient(120% 60% at 50% 0%, #141935 0%, #0A0D19 55%, #070911 100%); font-family:'Noto Sans KR',sans-serif; color:#E8E3D5">
+
+  <div style="display:flex; flex-wrap:wrap; gap:32px; align-items:flex-end; justify-content:space-between; margin-bottom:34px">
+    <div>
+      <div style="font-family:'Cinzel',serif; font-size:10px; letter-spacing:.4em; color:#B39A55">ORACLE OF THE GODS — PRODUCT SPEC</div>
+      <h1 style="margin:12px 0 0; font-family:'Noto Serif KR',serif; font-size:30px; font-weight:600; letter-spacing:.04em; color:#F2ECD9">신들의 신탁 · 모바일 앱</h1>
+      <p style="margin:12px 0 0; max-width:560px; font-size:12.5px; line-height:1.85; color:#8A90AC; font-weight:300; text-wrap:pretty">
+        실제 사주팔자(절기·60갑자·오호둔·오서둔·십신·오행)와 네이털 차트(케플러 궤도 요소) 계산이 화면 안에서 그대로 돌아갑니다. 생년월일을 바꾸면 원국·천체·신탁 문구가 전부 다시 계산됩니다.
+      </p>
+    </div>
+
+    <div style="display:flex; gap:22px; flex-wrap:wrap">
+      <div>
+        <div style="font-size:9.5px; letter-spacing:.2em; color:#B39A55; margin-bottom:9px">신탁 톤</div>
+        <div style="display:flex; gap:6px">
+          <sc-for list="{{ toneOpts }}" as="t" hint-placeholder-count="2">
+            <button onClick="{{ t.on }}" style="min-height:38px; padding:0 16px; background:{{ t.bg }}; border:1px solid {{ t.bd }}; border-radius:2px; color:{{ t.fg }}; font-family:'Noto Serif KR',serif; font-size:12.5px; white-space:nowrap; cursor:pointer; transition:all .18s">{{ t.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:9.5px; letter-spacing:.2em; color:#B39A55; margin-bottom:9px">화면</div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap">
+          <sc-for list="{{ screenOpts }}" as="t" hint-placeholder-count="5">
+            <button onClick="{{ t.on }}" style="min-height:38px; padding:0 16px; background:{{ t.bg }}; border:1px solid {{ t.bd }}; border-radius:2px; color:{{ t.fg }}; font-family:'Noto Serif KR',serif; font-size:12.5px; white-space:nowrap; cursor:pointer; transition:all .18s">{{ t.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex; gap:56px; align-items:flex-start; flex-wrap:wrap">
+
+    <div>
+      <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:16px">
+        <span style="font-family:'Cinzel',serif; font-size:10px; letter-spacing:.24em; color:#B39A55">MOBILE — 402pt</span>
+        <span style="font-size:11.5px; color:#8A90AC">주 채널. 인스타·카톡 공유 기준</span>
+      </div>
+      <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ 402 }}" height="{{ 874 }}" dark="{{ true }}" hint-size="402px,874px">
+        <dc-import name="Oracle App" variant="mobile" tone="{{ tone }}" screen="{{ screen }}" hint-size="100%,100%"></dc-import>
+      </x-import>
+      <div style="margin-top:14px; max-width:402px; font-size:11px; line-height:1.8; color:#8A90AC; font-weight:300">
+        랜딩 → 입력 → 불꽃 로딩 → 결과 스크롤 → 공유 카드. 하단 CTA는 모두 최소 44pt 이상.
+      </div>
+    </div>
+
+    <div>
+      <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:16px">
+        <span style="font-family:'Cinzel',serif; font-size:10px; letter-spacing:.24em; color:#B39A55">DESKTOP — RESPONSIVE</span>
+        <span style="font-size:11.5px; color:#8A90AC">같은 컴포넌트, 620px 중앙 컬럼으로 확장</span>
+      </div>
+      <x-import component-from-global-scope="ChromeWindow" from="./browser-window.jsx" width="{{ 940 }}" height="{{ 874 }}" url="oracle.kr/reading" tabs="{{ tabs }}" hint-size="940px,874px">
+        <dc-import name="Oracle App" variant="desktop" tone="{{ tone }}" screen="{{ screen }}" hint-size="100%,100%"></dc-import>
+      </x-import>
+      <div style="margin-top:14px; max-width:600px; font-size:11px; line-height:1.8; color:#8A90AC; font-weight:300">
+        데스크탑은 신전 밤하늘 배경을 전폭으로 두고 본문만 중앙 정렬합니다. 카드 폭이 늘어도 원국·천체 표는 같은 그리드를 유지합니다.
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:64px; padding-top:28px; border-top:1px solid rgba(201,162,39,.16); display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:26px">
+    <sc-for list="{{ notes }}" as="n" hint-placeholder-count="4">
+      <div>
+        <div style="font-family:'Cinzel',serif; font-size:9.5px; letter-spacing:.22em; color:#B39A55; margin-bottom:10px">{{ n.tag }}</div>
+        <div style="font-family:'Noto Serif KR',serif; font-size:14px; font-weight:600; color:#E8E3D5; margin-bottom:8px">{{ n.title }}</div>
+        <div style="font-size:11.5px; line-height:1.85; color:#7B819C; font-weight:300; text-wrap:pretty">{{ n.body }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;tone&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;grave&quot;,&quot;refined&quot;],&quot;default&quot;:&quot;grave&quot;,&quot;tsType&quot;:&quot;'grave' | 'refined'&quot;},&quot;screen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;landing&quot;,&quot;input&quot;,&quot;result&quot;,&quot;archive&quot;,&quot;compare&quot;],&quot;default&quot;:&quot;landing&quot;,&quot;tsType&quot;:&quot;'landing' | 'input' | 'result' | 'archive' | 'compare'&quot;}}">
+class Component extends DCLogic {
+  state = { tone: null, screen: null };
+
+  cur = (key, fallback) => {
+    if (this.state[key] !== null) return this.state[key];
+    return this.props[key] !== undefined ? this.props[key] : fallback;
+  };
+
+  renderVals() {
+    const mk = (opts, key) => opts.map(([label, val]) => {
+      const on = this.cur(key, opts[0][1]) === val;
+      return {
+        label, on: () => this.setState({ [key]: val }),
+        bg: on ? 'rgba(201,162,39,.16)' : 'transparent',
+        bd: on ? 'rgba(201,162,39,.55)' : '#252B47',
+        fg: on ? '#DCBB4A' : '#8A90AC'
+      };
+    });
+
+    return {
+      tone: this.cur('tone', 'grave'),
+      screen: this.cur('screen', 'landing'),
+      toneOpts: mk([['근엄', 'grave'], ['세련', 'refined']], 'tone'),
+      screenOpts: mk([['랜딩', 'landing'], ['입력', 'input'], ['결과', 'result'], ['보관함', 'archive'], ['궁합', 'compare']], 'screen'),
+      tabs: [{ title: '신들의 신탁' }, { title: '내 신탁 보관함' }],
+      notes: [
+        { tag: 'CALCULATION', title: '계산이 화면의 근거', body: '원국 카드는 장식이 아니라 리포트입니다. 절기 기준 표기, 진태양시 보정값, 십신 라벨, 황경 도수를 모두 노출해 "진짜 계산"이 보이게 했습니다.' },
+        { tag: 'CHARACTER', title: '초상화 대신 신물', body: '12신 + 크로노스를 라인아트 심볼로만 표현합니다. 저작권과 톤 양쪽에서 안전하고, 공유 카드에서도 선이 살아납니다.' },
+        { tag: 'VIRALITY', title: '세 가지 공유 규격', body: '인스타 스토리 9:16, 카톡 링크 썸네일 400×210, 수호신 배지 정사각 카드. 셋 모두 결과 데이터에서 자동 생성됩니다.' },
+        { tag: 'ARCHIVE', title: '보관함은 기기 소유', body: '청한 신탁은 생년월일·시각·정밀모드만 기기에 남깁니다. 다시 열면 원국을 그 자리에서 다시 계산하므로 문장을 서버에 보관할 필요가 없습니다.' },
+        { tag: 'COMPATIBILITY', title: '궁합도 계산이 낸다', body: '일간 합·충과 십신, 일지 육합·삼합·충, 열여섯 글자의 오행 상보, 수호신 배치, 태양·달·금성 각을 100점으로 가중 합산합니다. 다섯 항목의 점수와 근거를 그대로 노출합니다.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
