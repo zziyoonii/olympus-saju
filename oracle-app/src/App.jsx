@@ -28,6 +28,16 @@ const PHRASES = [
 
 const pad2 = (n) => String(n).padStart(2, '0');
 const blankPerson = () => ({ name: '', y: '', m: '', d: '', h: '', min: '' });
+
+// Inverse of the "YYYYMMDD" / "YYYYMMDDHHmm" encoding used in share links.
+function decodeBirth(str) {
+  if (!/^\d{8}$/.test(str) && !/^\d{12}$/.test(str)) return null;
+  const y = parseInt(str.slice(0, 4), 10), m = parseInt(str.slice(4, 6), 10), d = parseInt(str.slice(6, 8), 10);
+  if (str.length === 12) {
+    return { y, m, d, h: parseInt(str.slice(8, 10), 10), mi: parseInt(str.slice(10, 12), 10), unk: false };
+  }
+  return { y, m, d, h: 12, mi: 0, unk: true };
+}
 const TONE = 'grave'; // 신탁체 톤 — 근엄체를 기본 목소리로 고정한다
 
 export default function App() {
@@ -122,6 +132,51 @@ export default function App() {
     return { saju: s, natal: n, guardian: g, y: cy, m: cm, d: cd, h: ch, mi: cmi, unk };
   };
 
+  // Opening a shared link (?r=YYYYMMDD[HHmm] or ?pair=A-B) jumps straight to
+  // the same reading/compat result the sharer saw, rather than dumping the
+  // recipient on a blank form — that's the whole point of sharing it.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const rParam = params.get('r');
+    const pairParam = params.get('pair');
+    if (!rParam && !pairParam) return;
+
+    if (rParam) {
+      const dec = decodeBirth(rParam);
+      if (dec) {
+        setYState(String(dec.y)); setMState(pad2(dec.m)); setDState(pad2(dec.d));
+        setHState(dec.unk ? '' : pad2(dec.h)); setMinState(dec.unk ? '' : pad2(dec.mi));
+        setUnknownTime(dec.unk);
+        const r = compute({
+          y: String(dec.y), m: pad2(dec.m), d: pad2(dec.d),
+          h: dec.unk ? '' : pad2(dec.h), min: dec.unk ? '' : pad2(dec.mi),
+          unknownTime: dec.unk, precise: true
+        });
+        setResult(r);
+        setScreen('result');
+      }
+    } else if (pairParam) {
+      const [aStr, bStr] = pairParam.split('-');
+      const aDec = aStr && decodeBirth(aStr);
+      const bDec = bStr && decodeBirth(bStr);
+      if (aDec && bDec) {
+        const toPerson = (dec) => ({
+          name: '', y: String(dec.y), m: pad2(dec.m), d: pad2(dec.d),
+          h: dec.unk ? '' : pad2(dec.h), min: dec.unk ? '' : pad2(dec.mi)
+        });
+        const cpNew = [toPerson(aDec), toPerson(bDec)];
+        setCpState(cpNew);
+        setScreen('compare');
+        const A = personData(cpNew[0]), B = personData(cpNew[1]);
+        if (A && B) { setCpA(A); setCpB(B); setCompat(OracleCompat.compare(A, B, tone())); }
+      }
+    }
+    // Drop the query string once consumed so it doesn't linger in the address
+    // bar or get re-parsed after the user navigates elsewhere in the app.
+    window.history.replaceState(null, '', window.location.pathname);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const copyOf = (r) => {
     if (!r) return null;
     return OracleCopy.build({ saju: r.saju, natal: r.natal, guardian: r.guardian, name: name.trim() }, tone());
@@ -183,14 +238,18 @@ export default function App() {
     });
   };
 
+  // The deployed origin + Vite's configured base path, so the link is real
+  // and clickable on whichever host this build is running on (Vercel root
+  // domain, or the GitHub Pages /olympus-saju/ subpath) rather than the
+  // placeholder oracle.kr domain from the design prototype.
   const shareLink = () => {
-    const base = 'https://oracle.kr/';
+    const base = window.location.origin + import.meta.env.BASE_URL;
     if (shareMode === 'compat' && cpA && cpB) {
       const enc = (p) => p.y + '' + pad2(p.m) + pad2(p.d) + (p.unk ? '' : pad2(p.h) + pad2(p.mi));
-      return base + 'pair/' + enc(cpA) + '-' + enc(cpB);
+      return base + '?pair=' + enc(cpA) + '-' + enc(cpB);
     }
     if (!result) return base;
-    return base + 'r/' + result.y + pad2(result.m) + pad2(result.d) + (result.unk ? '' : pad2(result.h) + pad2(result.mi));
+    return base + '?r=' + result.y + pad2(result.m) + pad2(result.d) + (result.unk ? '' : pad2(result.h) + pad2(result.mi));
   };
 
   const inviteMessage = () => {
