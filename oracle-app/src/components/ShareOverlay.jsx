@@ -1,11 +1,18 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { sx } from '../utils/sx.js';
 import Hoverable from './Hoverable.jsx';
-import { nodeToImageFile, shareFile, downloadFile } from '../utils/shareImage.js';
+import { nodeToImageFile, shareFile, downloadFile, prewarmFontEmbed, resetFontEmbedPrewarm } from '../utils/shareImage.js';
 
 export default function ShareOverlay({ vm }) {
   const cardRef = useRef(null);
   const [shareState, setShareState] = useState('idle'); // idle | working | saved | failed
+
+  // Start fetching the card's web fonts as soon as it's on screen, well
+  // before the user taps "공유하기" — see shareImage.js for why.
+  useEffect(() => {
+    resetFontEmbedPrewarm();
+    prewarmFontEmbed(cardRef.current);
+  }, [vm.isStory, vm.isCompatStory, vm.isCompatInvite]);
 
   const handleShare = async () => {
     setShareState('working');

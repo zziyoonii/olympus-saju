@@ -1,4 +1,4 @@
-import { toBlob } from 'html-to-image';
+import { toBlob, getFontEmbedCSS } from 'html-to-image';
 
 function withTimeout(promise, ms) {
   return new Promise((resolve, reject) => {
@@ -7,21 +7,39 @@ function withTimeout(promise, ms) {
   });
 }
 
+// Embedding the card's web fonts (Cinzel/Noto) into the exported image means
+// fetching the actual font files — on Korean subsets that's a real amount of
+// data, and doing that fetch only after the user taps "공유하기" is what made
+// the button sit on "카드를 만드는 중…" for several seconds. Instead, start
+// that fetch the moment the card is on screen (while the user is still
+// looking at it, before they've decided to share) so it's usually already
+// done by the time they tap the button.
+let fontEmbedCSSPromise = null;
+export function prewarmFontEmbed(node) {
+  if (!node || fontEmbedCSSPromise) return;
+  fontEmbedCSSPromise = getFontEmbedCSS(node).catch(() => '');
+}
+export function resetFontEmbedPrewarm() {
+  fontEmbedCSSPromise = null;
+}
+
 // Renders a DOM node (one of the share cards) to a PNG File so it can be
-// handed to the OS share sheet or downloaded directly. Embedding the web
-// fonts (Cinzel/Noto) needs a network fetch of each font file — on a slow or
-// blocked connection that fetch can hang well past any reasonable wait, so
-// this tries the full-fidelity render first and falls back to skipping font
-// embedding (near-instant, no network) rather than leaving the caller stuck.
+// handed to the OS share sheet or downloaded directly. Never waits long on
+// the network: it uses the prewarmed font CSS if it's ready, gives it a
+// short grace period if not, and otherwise renders immediately without
+// embedded fonts (correct layout/colors/data, system fallback typeface)
+// rather than leaving the user staring at a spinner.
 export async function nodeToImageFile(node, filename) {
   if (!node) return null;
-  const opts = { pixelRatio: 2, cacheBust: true };
-  let blob;
-  try {
-    blob = await withTimeout(toBlob(node, opts), 6000);
-  } catch (e) {
-    blob = await toBlob(node, { ...opts, skipFonts: true });
+  let fontEmbedCSS = '';
+  if (fontEmbedCSSPromise) {
+    try { fontEmbedCSS = (await withTimeout(fontEmbedCSSPromise, 800)) || ''; }
+    catch (e) { fontEmbedCSS = ''; }
   }
+  const opts = fontEmbedCSS
+    ? { pixelRatio: 2, cacheBust: true, fontEmbedCSS }
+    : { pixelRatio: 2, cacheBust: true, skipFonts: true };
+  const blob = await toBlob(node, opts);
   if (!blob) return null;
   return new File([blob], filename, { type: 'image/png' });
 }
