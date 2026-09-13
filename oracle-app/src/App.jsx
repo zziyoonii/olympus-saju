@@ -298,6 +298,9 @@ export default function App() {
   const p = precise;
   const firstOpen = cpy ? cpy.sections[0] : null;
 
+  // Person II gets its own example date so the two blocks never show the same
+  // placeholder — with identical placeholders it read as if person II's
+  // fields already had person I's data typed into them.
   const people = cp.map((pp, i) => ({
     name: pp.name, y: pp.y, m: pp.m, d: pp.d, h: pp.h, min: pp.min,
     setName: setCp(i, 'name'), setY: setCp(i, 'y'), setM: setCp(i, 'm'),
@@ -305,6 +308,7 @@ export default function App() {
     tag: i === 0 ? 'PERSON I' : 'PERSON II',
     hint: i === 0 ? '나' : '상대',
     placeholder: i === 0 ? '내 이름 (선택)' : '상대의 이름 (선택)',
+    yPh: i === 0 ? '1996' : '1994', mPh: i === 0 ? '07' : '03', dPh: i === 0 ? '14' : '02',
     border: i === 0 ? 'rgba(201,162,39,.28)' : 'rgba(255,255,255,.09)',
     tagColor: i === 0 ? '#C9A227' : '#B39A55'
   }));

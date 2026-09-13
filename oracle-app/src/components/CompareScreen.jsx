@@ -18,11 +18,11 @@ export default function CompareScreen({ vm }) {
           <input className="oinp" value={pp.name} onChange={pp.setName} placeholder={pp.placeholder}
             style={sx('width:100%; box-sizing:border-box; background:none; border:none; border-bottom:1px solid #2A3050; padding:8px 0; color:#E8E3D5; font-family:\'Noto Serif KR\',serif; font-size:16px; transition:border-color .2s')} />
           <div style={sx('display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:12px; margin-top:18px')}>
-            <input className="oinp" value={pp.y} onChange={pp.setY} inputMode="numeric" maxLength={4} placeholder="1996"
+            <input className="oinp" value={pp.y} onChange={pp.setY} inputMode="numeric" maxLength={4} placeholder={pp.yPh}
               style={sx('width:100%; box-sizing:border-box; background:none; border:none; border-bottom:1px solid #2A3050; padding:8px 0; color:#E8E3D5; font-family:\'Cinzel\',serif; font-size:19px; letter-spacing:.05em; transition:border-color .2s')} />
-            <input className="oinp" value={pp.m} onChange={pp.setM} inputMode="numeric" maxLength={2} placeholder="07"
+            <input className="oinp" value={pp.m} onChange={pp.setM} inputMode="numeric" maxLength={2} placeholder={pp.mPh}
               style={sx('width:100%; box-sizing:border-box; background:none; border:none; border-bottom:1px solid #2A3050; padding:8px 0; color:#E8E3D5; font-family:\'Cinzel\',serif; font-size:19px; transition:border-color .2s')} />
-            <input className="oinp" value={pp.d} onChange={pp.setD} inputMode="numeric" maxLength={2} placeholder="14"
+            <input className="oinp" value={pp.d} onChange={pp.setD} inputMode="numeric" maxLength={2} placeholder={pp.dPh}
               style={sx('width:100%; box-sizing:border-box; background:none; border:none; border-bottom:1px solid #2A3050; padding:8px 0; color:#E8E3D5; font-family:\'Cinzel\',serif; font-size:19px; transition:border-color .2s')} />
           </div>
           <div style={sx('display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:12px; margin-top:7px; font-family:\'Noto Sans KR\',sans-serif; font-size:10px; color:#7B819C')}><div>년</div><div>월</div><div>일</div></div>

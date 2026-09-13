@@ -41,6 +41,15 @@ export function TempleArt() {
   );
 }
 
+export function ShareGlyph({ size = 15, color = '#14100A' }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <path d="M12 15.5V3M12 3L7.5 7.5M12 3l4.5 4.5" stroke={color} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M4.5 12v6.5A1.5 1.5 0 0 0 6 20h12a1.5 1.5 0 0 0 1.5-1.5V12" stroke={color} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 export function FlameArt() {
   return (
     <svg width={34} height={48} viewBox="0 0 34 48" fill="none">

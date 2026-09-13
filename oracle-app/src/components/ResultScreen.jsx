@@ -2,14 +2,23 @@ import { sx } from '../utils/sx.js';
 import Hoverable from './Hoverable.jsx';
 import LifeTab from './LifeTab.jsx';
 import YearTab from './YearTab.jsx';
+import { ShareGlyph } from './icons.jsx';
 
 export default function ResultScreen({ vm }) {
   return (
-    <div style={sx(`padding-top:${vm.topPad}`)}>
+    <div style={sx(`padding-top:${vm.topPad}; padding-bottom:70px`)}>
       <div style={sx('display:flex; justify-content:space-between; align-items:center; margin-bottom:22px')}>
         <button onClick={vm.goInput} style={sx('background:none; border:none; padding:0; margin-left:-2px; color:#8A90AC; font-family:\'Noto Sans KR\',sans-serif; font-size:12px; cursor:pointer')}>← 다시 묻기</button>
         <div style={sx('font-family:\'Cinzel\',serif; font-size:9.5px; letter-spacing:.3em; color:#B39A55')}>{vm.birthStamp}</div>
       </div>
+
+      {/* 스크롤 위치와 상관없이 항상 손닿는 곳에 두는 공유 버튼 —
+          기존 공유 버튼은 신탁 전체를 다 내려야 나온다는 피드백 반영 */}
+      <Hoverable as="button" onClick={vm.openShare}
+        style={sx('position:fixed; left:50%; transform:translateX(-50%); bottom:calc(18px + env(safe-area-inset-bottom)); z-index:25; display:flex; align-items:center; gap:8px; padding:0 22px; min-height:48px; background:linear-gradient(#C9A227,#A6821A); border:none; border-radius:999px; color:#14100A; font-family:\'Noto Serif KR\',serif; font-size:13.5px; font-weight:600; letter-spacing:.08em; cursor:pointer; box-shadow:0 12px 28px -8px rgba(0,0,0,.6), 0 0 0 1px rgba(201,162,39,.5); animation:riseIn .4s ease .3s both')}
+        hoverStyle={{ filter: 'brightness(1.08)' }}>
+        <ShareGlyph /> 공유하기
+      </Hoverable>
 
       <div style={sx('display:grid; grid-template-columns:1fr 1fr; margin-bottom:22px; border:1px solid rgba(201,162,39,.22)')}>
         {vm.resultTabs.map((t) => (
