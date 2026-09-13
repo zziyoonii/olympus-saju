@@ -1,0 +1,6 @@
+{
+  "installCommand": "cd oracle-app && npm install",
+  "buildCommand": "cd oracle-app && npm run build",
+  "outputDirectory": "oracle-app/dist",
+  "framework": "vite"
+}

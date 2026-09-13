@@ -3,6 +3,8 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  // Served as a GitHub Pages project site at /olympus-saju/, not the domain root.
-  base: '/olympus-saju/',
+  // Root-domain hosts (Vercel, Netlify, ...) serve this at "/". Only the
+  // GitHub Pages project-page workflow needs the "/olympus-saju/" subpath,
+  // so it opts in explicitly via this env var at build time.
+  base: process.env.GITHUB_PAGES === 'true' ? '/olympus-saju/' : '/',
 });

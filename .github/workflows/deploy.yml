@@ -31,6 +31,8 @@ jobs:
         working-directory: oracle-app
       - run: npm run build
         working-directory: oracle-app
+        env:
+          GITHUB_PAGES: "true"
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
