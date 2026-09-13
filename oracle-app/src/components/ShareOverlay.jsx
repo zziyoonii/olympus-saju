@@ -1,7 +1,41 @@
+import { useRef, useState } from 'react';
 import { sx } from '../utils/sx.js';
 import Hoverable from './Hoverable.jsx';
+import { nodeToImageFile, shareFile, downloadFile } from '../utils/shareImage.js';
 
 export default function ShareOverlay({ vm }) {
+  const cardRef = useRef(null);
+  const [shareState, setShareState] = useState('idle'); // idle | working | saved | failed
+
+  const handleShare = async () => {
+    setShareState('working');
+    try {
+      const file = await nodeToImageFile(cardRef.current, 'oracle-of-the-gods.png');
+      if (!file) { setShareState('failed'); setTimeout(() => setShareState('idle'), 2400); return; }
+
+      const result = await shareFile(file, { title: '신들의 신탁', text: vm.shareText });
+      if (result === 'shared') { setShareState('idle'); return; }
+      if (result === 'cancelled') { setShareState('idle'); return; }
+
+      // No native share sheet (mostly desktop) — download the image directly
+      // and copy the invite text so it can be pasted wherever the image goes.
+      downloadFile(file);
+      vm.copyLink();
+      setShareState('saved');
+      setTimeout(() => setShareState('idle'), 2800);
+    } catch (e) {
+      setShareState('failed');
+      setTimeout(() => setShareState('idle'), 2400);
+    }
+  };
+
+  const shareLabel = {
+    idle: '공유하기',
+    working: '카드를 만드는 중…',
+    saved: '이미지 저장됨 · 초대글도 복사됨',
+    failed: '공유에 실패했다 · 다시 시도'
+  }[shareState];
+
   return (
     <div style={sx('position:fixed; inset:0; z-index:40; box-sizing:border-box; display:flex; flex-direction:column; background:#0B0E1A; animation:fadeIn .3s ease both')}>
       <div style={sx('display:flex; justify-content:space-between; align-items:center; padding:20px 22px 14px; flex:none')}>
@@ -21,7 +55,7 @@ export default function ShareOverlay({ vm }) {
         <div style={sx(`transform:scale(${vm.shareScale}); transform-origin:top center`)}>
 
           {vm.isStory && (
-            <div style={sx('width:360px; height:640px; position:relative; overflow:hidden; background:radial-gradient(120% 65% at 50% -5%, #232A4C, #12162A 50%, #080A14 100%); box-shadow:0 30px 70px -30px rgba(0,0,0,.9)')}>
+            <div ref={cardRef} style={sx('width:360px; height:640px; position:relative; overflow:hidden; background:radial-gradient(120% 65% at 50% -5%, #232A4C, #12162A 50%, #080A14 100%); box-shadow:0 30px 70px -30px rgba(0,0,0,.9)')}>
               <div style={sx('position:absolute; inset:0; opacity:.5; background-image:radial-gradient(#C9C7E0 1px, transparent 1.2px); background-size:40px 46px; mask-image:linear-gradient(#000, transparent 65%); -webkit-mask-image:linear-gradient(#000, transparent 65%)')} />
               <div style={sx(`position:absolute; inset:0; background:radial-gradient(55% 32% at 50% 26%, ${vm.guardGlow}, transparent 72%)`)} />
               <div style={sx('position:relative; height:100%; box-sizing:border-box; padding:40px 34px 30px; display:flex; flex-direction:column; text-align:center; color:#E8E3D5')}>
@@ -49,7 +83,7 @@ export default function ShareOverlay({ vm }) {
           )}
 
           {vm.isCompatStory && (
-            <div style={sx('width:360px; height:640px; position:relative; overflow:hidden; background:radial-gradient(120% 65% at 50% -5%, #232A4C, #12162A 50%, #080A14 100%); box-shadow:0 30px 70px -30px rgba(0,0,0,.9)')}>
+            <div ref={cardRef} style={sx('width:360px; height:640px; position:relative; overflow:hidden; background:radial-gradient(120% 65% at 50% -5%, #232A4C, #12162A 50%, #080A14 100%); box-shadow:0 30px 70px -30px rgba(0,0,0,.9)')}>
               <div style={sx('position:absolute; inset:0; opacity:.5; background-image:radial-gradient(#C9C7E0 1px, transparent 1.2px); background-size:40px 46px; mask-image:linear-gradient(#000, transparent 65%); -webkit-mask-image:linear-gradient(#000, transparent 65%)')} />
               <div style={sx(`position:absolute; inset:0; background:radial-gradient(58% 34% at 50% 24%, ${vm.compatGlow}, transparent 72%)`)} />
               <div style={sx('position:relative; height:100%; box-sizing:border-box; padding:34px 30px 26px; display:flex; flex-direction:column; text-align:center; color:#E8E3D5')}>
@@ -90,7 +124,7 @@ export default function ShareOverlay({ vm }) {
           )}
 
           {vm.isCompatInvite && (
-            <div style={sx('width:400px; height:210px; position:relative; overflow:hidden; background:linear-gradient(100deg, #0D1122 0%, #171D38 60%, #10142A 100%); box-shadow:0 24px 60px -28px rgba(0,0,0,.9)')}>
+            <div ref={cardRef} style={sx('width:400px; height:210px; position:relative; overflow:hidden; background:linear-gradient(100deg, #0D1122 0%, #171D38 60%, #10142A 100%); box-shadow:0 24px 60px -28px rgba(0,0,0,.9)')}>
               <div style={sx(`position:absolute; inset:0; background:radial-gradient(48% 92% at 20% 50%, ${vm.compatGlow}, transparent 70%)`)} />
               <div style={sx('position:absolute; inset:0; opacity:.4; background-image:radial-gradient(#C9C7E0 1px, transparent 1.1px); background-size:34px 38px')} />
               <div style={sx('position:relative; height:100%; box-sizing:border-box; padding:24px 26px; display:flex; align-items:center; gap:22px')}>
@@ -118,43 +152,14 @@ export default function ShareOverlay({ vm }) {
             style={sx('flex:none; min-height:36px; padding:0 13px; background:none; border:1px solid rgba(201,162,39,.4); border-radius:2px; color:#DCBB4A; font-family:\'Noto Sans KR\',sans-serif; font-size:11px; cursor:pointer; transition:all .18s')}
             hoverStyle={{ background: 'rgba(201,162,39,.12)' }}>{vm.linkLabel}</Hoverable>
         </div>
-        <Hoverable as="button" onClick={vm.openInstagram}
-          style={sx('width:100%; min-height:52px; background:linear-gradient(#C9A227,#A6821A); border:none; border-radius:2px; color:#14100A; font-family:\'Noto Serif KR\',serif; font-size:14.5px; font-weight:600; letter-spacing:.1em; cursor:pointer')}
-          hoverStyle={{ filter: 'brightness(1.08)' }}>{vm.igLabel}</Hoverable>
+        <Hoverable as="button" onClick={handleShare} disabled={shareState === 'working'}
+          style={sx(`width:100%; min-height:52px; background:linear-gradient(#C9A227,#A6821A); border:none; border-radius:2px; color:#14100A; font-family:'Noto Serif KR',serif; font-size:14.5px; font-weight:600; letter-spacing:.1em; cursor:${shareState === 'working' ? 'default' : 'pointer'}; opacity:${shareState === 'working' ? 0.75 : 1}`)}
+          hoverStyle={shareState === 'working' ? {} : { filter: 'brightness(1.08)' }}>{shareLabel}</Hoverable>
+        <div style={sx('font-family:\'Noto Sans KR\',sans-serif; font-size:10px; line-height:1.6; color:#7B819C; text-align:center; margin-top:10px')}>
+          기기의 공유창이 열리면 인스타그램·카카오톡·사진 앱 등 원하는 곳을 바로 고르라. 지원하지 않는 기기에서는 이미지가 저장되고 초대글이 복사된다.
+        </div>
         <button onClick={vm.closeShare} style={sx('width:100%; min-height:46px; margin-top:8px; background:none; border:none; color:#8A90AC; font-family:\'Noto Sans KR\',sans-serif; font-size:12px; cursor:pointer')}>닫기</button>
       </div>
-
-      {vm.igSaving && (
-        <div style={sx('position:fixed; inset:0; z-index:50; display:flex; align-items:center; justify-content:center; background:rgba(8,10,20,.86); animation:fadeIn .2s ease both')}>
-          <div style={sx('text-align:center')}>
-            <div style={sx('display:flex; justify-content:center; animation:glowPulse 1.4s ease-in-out infinite')}>{vm.flameArt}</div>
-            <div style={sx('font-size:14px; color:#C4C8DA; font-weight:300; margin-top:20px')}>카드를 사진첩에 새기는 중</div>
-          </div>
-        </div>
-      )}
-
-      {vm.igReady && (
-        <div style={sx('position:fixed; inset:0; z-index:50; display:flex; align-items:flex-end; background:rgba(8,10,20,.72); animation:fadeIn .2s ease both')}>
-          <div style={sx('width:100%; box-sizing:border-box; padding:26px 22px 22px; background:#0E1224; border-top:1px solid rgba(201,162,39,.3); animation:riseIn .32s ease both')}>
-            <div style={sx('font-family:\'Cinzel\',serif; font-size:9.5px; letter-spacing:.3em; color:#B39A55')}>SAVED TO PHOTOS</div>
-            <div style={sx('font-size:17px; font-weight:600; letter-spacing:.03em; color:#F2ECD9; margin-top:11px')}>사진첩에 저장했습니다</div>
-            <p style={sx('margin:10px 0 0; font-family:\'Noto Sans KR\',sans-serif; font-size:12px; line-height:1.85; color:#8A90AC; font-weight:300; text-wrap:pretty')}>인스타그램은 외부 앱이 스토리에 이미지를 직접 넣을 수 없습니다. 스토리를 열고 방금 저장한 카드를 고르면 됩니다. {vm.igLinkNote}</p>
-
-            {vm.igNeedsLink && (
-              <div style={sx('display:flex; align-items:center; gap:10px; margin-top:14px; padding:11px 13px; border:1px solid rgba(201,162,39,.28); background:rgba(255,255,255,.02)')}>
-                <div style={sx('flex:1; min-width:0; font-family:\'Cinzel\',serif; font-size:11.5px; letter-spacing:.04em; color:#9BA0BA; overflow:hidden; text-overflow:ellipsis; white-space:nowrap')}>{vm.shareLinkText}</div>
-                <Hoverable as="button" onClick={vm.copyLink}
-                  style={sx('flex:none; min-height:36px; padding:0 13px; background:none; border:1px solid rgba(201,162,39,.4); border-radius:2px; color:#DCBB4A; font-family:\'Noto Sans KR\',sans-serif; font-size:11px; cursor:pointer; transition:all .18s')}
-                  hoverStyle={{ background: 'rgba(201,162,39,.12)' }}>{vm.linkLabel}</Hoverable>
-              </div>
-            )}
-            <Hoverable as="button" onClick={vm.launchInstagram}
-              style={sx('width:100%; min-height:52px; margin-top:20px; background:linear-gradient(#C9A227,#A6821A); border:none; border-radius:2px; color:#14100A; font-family:\'Noto Serif KR\',serif; font-size:14.5px; font-weight:600; letter-spacing:.1em; cursor:pointer')}
-              hoverStyle={{ filter: 'brightness(1.08)' }}>인스타그램 열기</Hoverable>
-            <button onClick={vm.closeIg} style={sx('width:100%; min-height:44px; margin-top:6px; background:none; border:none; color:#8A90AC; font-family:\'Noto Sans KR\',sans-serif; font-size:12px; cursor:pointer')}>나중에</button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

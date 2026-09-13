@@ -54,8 +54,6 @@ export default function App() {
   const [copyFailed, setCopyFailed] = useState(false);
   const [linkCopied, setLinkCopied] = useState(false);
   const [linkFailed, setLinkFailed] = useState(false);
-  const [igStep, setIgStep] = useState(null);
-  const [igLinkCopied, setIgLinkCopied] = useState(false);
 
   const [resultTab, setResultTab] = useState('life');
   const [pillarsOpen, setPillarsOpen] = useState(false);
@@ -223,19 +221,6 @@ export default function App() {
       setLinkCopied(true);
       setTimeout(() => setLinkCopied(false), 1800);
     });
-  };
-
-  // 인스타그램 스토리는 이미지를 먼저 생성해 넣어야 하므로,
-  // 사진첩 저장 → 스토리 열기 2단계로 둔다. 네이티브에서는 단일 공유시트가 된다.
-  const openInstagram = () => {
-    setIgStep('saving'); setIgLinkCopied(false);
-    copyToClipboard(inviteMessage()).then((ok) => setIgLinkCopied(ok));
-    setTimeout(() => setIgStep('ready'), 900);
-  };
-
-  const launchInstagram = () => {
-    try { window.open('https://www.instagram.com/', '_blank', 'noopener'); } catch (e) { /* noop */ }
-    setIgStep(null);
   };
 
   const goInput = () => { setScreen('input'); setShare(false); };
@@ -416,14 +401,7 @@ export default function App() {
     copyLink,
     linkLabel: linkFailed ? '복사 안 됨' : linkCopied ? '초대글이 복사되었다' : '초대글 복사',
     shareLinkText: shareLink(),
-    openInstagram, launchInstagram,
-    closeIg: () => setIgStep(null),
-    igSaving: igStep === 'saving', igReady: igStep === 'ready',
-    igLinkNote: igLinkCopied
-      ? '초대글과 링크가 함께 복사되었으니 스티커로 붙이거나 카톡에 그대로 붙이십시오.'
-      : '링크는 자동으로 복사되지 않았습니다.',
-    igNeedsLink: igStep === 'ready' && !igLinkCopied,
-    igLabel: shareTab === 'cstory' || shareTab === 'story' ? '인스타 스토리로 공유' : '인스타에 공유',
+    shareText: inviteMessage(),
 
     resultTabs, isLifeTab: resultTab === 'life', isYearTab: resultTab === 'year',
 
