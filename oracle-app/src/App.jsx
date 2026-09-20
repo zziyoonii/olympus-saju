@@ -75,6 +75,7 @@ export default function App() {
   const [resultTab, setResultTab] = useState('life');
   const [pillarsOpen, setPillarsOpen] = useState(false);
   const [natalOpen, setNatalOpen] = useState(false);
+  const [termsOpen, setTermsOpen] = useState(false);
   const [openOracle, setOpenOracle] = useState(0);
 
   const [cp, setCpState] = useState([blankPerson(), blankPerson()]);
@@ -493,12 +494,24 @@ export default function App() {
     personaPast: pe ? pe.past : [],
     togglePillars: () => setPillarsOpen((v) => !v),
     toggleNatal: () => setNatalOpen((v) => !v),
-    pillarsOpen, natalOpen,
+    toggleTerms: () => setTermsOpen((v) => !v),
+    pillarsOpen, natalOpen, termsOpen,
     pillarsCaret: pillarsOpen ? '180deg' : '0deg',
     natalCaret: natalOpen ? '180deg' : '0deg',
+    termsCaret: termsOpen ? '180deg' : '0deg',
     pillarsBorder: pillarsOpen ? 'rgba(255,255,255,.07)' : 'transparent',
     natalBorder: natalOpen ? 'rgba(255,255,255,.07)' : 'transparent',
-    pillarsSummary: r ? '절기 ' + r.saju.termName + ' · 일주 ' + r.saju.pillars[2].ganji : '',
+    termsBorder: termsOpen ? 'rgba(255,255,255,.07)' : 'transparent',
+    // 흐르는 신탁 문장은 그대로 두고, 처음 보는 사주 용어만 여기서 한 번 풀어준다.
+    glossary: [
+      ['일간', '태어난 날을 나타내는 글자. 사주에서 ‘나’를 뜻하는 가장 중요한 글자예요.'],
+      ['원국 · 팔자', '태어난 연·월·일·시로 세운 여덟 글자. 내가 타고난 밑바탕 전체를 말해요.'],
+      ['오행', '나무·불·흙·쇠·물(목·화·토·금·수) 다섯 기운. 뭐가 많고 적은지가 성격을 좌우해요.'],
+      ['십신', '‘나(일간)’와 나머지 글자의 관계를 나눈 것. 크게 비겁·식상·재성·관성·인성 다섯 갈래예요.'],
+      ['세운', '그 해에 들어오는 기운. ‘올해 운의 분위기’라고 보면 돼요.'],
+      ['신강 · 신약', '내 기운이 센 편(신강)인지 약한 편(신약)인지. 세면 혼자서도 잘 서고, 약하면 사람·환경 도움을 받는 게 유리해요.']
+    ],
+    pillarsSummary: r ? '절기 ' + r.saju.termName + ' · 일주 ' + r.saju.pillars[2].kr : '',
     natalSummary: r && r.natal[0] ? '태양 ' + r.natal[0].sign : '',
 
     closerIcon: yr ? <Icon god={yr.closer.god} size={30} color={yr.closer.color} stroke={1.05} /> : null,

@@ -262,10 +262,10 @@ export function read(saju, natal, daeun, birthYear, tone) {
 
   const strengthLabel = s.strength === 'strong' ? '신강' : s.strength === 'weak' ? '신약' : '중화';
   const strengthNote = s.strength === 'strong'
-    ? `일간을 돕는 자리가 ${s.score}, 덜어내는 자리가 ${s.drain}`
+    ? `타고난 기운이 굳세어 홀로 서는 편 · 돕는 자리 ${s.score}, 덜어내는 자리 ${s.drain}`
     : s.strength === 'weak'
-      ? `일간을 돕는 자리가 ${s.score}뿐, 덜어내는 자리가 ${s.drain}`
-      : `돕는 자리 ${s.score}, 덜어내는 자리 ${s.drain}`;
+      ? `타고난 기운이 약해 사람·환경에 기대는 편 · 돕는 자리 ${s.score}, 덜어내는 자리 ${s.drain}`
+      : `어느 쪽으로도 치우치지 않아 두루 견디는 편 · 돕는 자리 ${s.score}, 덜어내는 자리 ${s.drain}`;
 
   return {
     headline: top ? top[t] : '',

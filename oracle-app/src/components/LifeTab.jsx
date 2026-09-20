@@ -212,6 +212,30 @@ export default function LifeTab({ vm }) {
           </div>
         ))}
       </div>
+
+      {/* 용어 풀이 */}
+      <div style={sx('margin-top:14px; border:1px solid rgba(255,255,255,.09); background:#0E1224; animation:riseIn .6s ease .24s both')}>
+        <div onClick={vm.toggleTerms} style={sx(`display:flex; justify-content:space-between; align-items:center; padding:16px 18px; border-bottom:1px solid ${vm.termsBorder}; cursor:pointer`)}>
+          <div>
+            <div style={sx('font-family:\'Cinzel\',serif; font-size:9.5px; letter-spacing:.3em; color:#B39A55')}>GLOSSARY</div>
+            <div style={sx('font-size:15px; font-weight:600; letter-spacing:.05em; margin-top:6px')}>용어 풀이</div>
+          </div>
+          <div style={sx('display:flex; align-items:center; gap:12px')}>
+            <div style={sx('font-family:\'Noto Sans KR\',sans-serif; font-size:9.5px; color:#7B819C')}>처음 보는 말이 있다면</div>
+            <div style={sx(`font-size:11px; color:#B39A55; transform:rotate(${vm.termsCaret}); transition:transform .2s`)}>▾</div>
+          </div>
+        </div>
+        {vm.termsOpen && (
+          <div style={sx('padding:4px 18px 14px')}>
+            {vm.glossary.map(([term, def]) => (
+              <div key={term} style={sx('display:grid; grid-template-columns:82px 1fr; gap:12px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,.05)')}>
+                <div style={sx('font-size:12.5px; font-weight:600; color:#E8E3D5; letter-spacing:.02em')}>{term}</div>
+                <div style={sx('font-family:\'Noto Sans KR\',sans-serif; font-size:11.5px; line-height:1.8; color:#9BA0BA; font-weight:300; text-wrap:pretty')}>{def}</div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
