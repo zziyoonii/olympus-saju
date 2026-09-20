@@ -251,6 +251,72 @@ function hash(str) {
   return Math.abs(h);
 }
 
+/* 섹션마다 얹는 '쉬이 이르면' 한 줄 — 뜻은 쉽게 풀되 신탁 어투는 그대로.
+   어려운 용어(십신)는 다섯 갈래로 뭉쳐, 누구나 알 만한 말로 이른다. */
+const EL_WORD = { '목': '나무', '화': '불', '토': '흙', '금': '쇠', '수': '물' };
+const TEN_GROUP = {
+  '비견': '비겁', '겁재': '비겁', '식신': '식상', '상관': '식상',
+  '편재': '재성', '정재': '재성', '편관': '관성', '정관': '관성',
+  '편인': '인성', '정인': '인성'
+};
+// '…세고 / …굳고' 처럼 뒤 문장과 이어지는 조각으로 둔다.
+const EL_STRONG_PLAIN = {
+  '목': '자라고 뻗어나가려는 힘이 세고',
+  '화': '감정과 열정을 드러내는 힘이 세고',
+  '토': '안정되이 버티고 쌓는 힘이 세고',
+  '금': '끊고 맺는 결단이 굳고',
+  '수': '유연히 흐르며 때를 맞추는 힘이 세고'
+};
+const EL_LACK_PLAIN = {
+  '목': '새로 시작하고 방향을 잡는 힘은 약하니라',
+  '화': '스스로를 드러내는 힘은 약하니라',
+  '토': '마음 붙여 안정될 자리는 모자라니라',
+  '금': '딱 끊어내는 결단은 모자라니라',
+  '수': '여유로이 흘려보내는 힘은 모자라니라'
+};
+const EL_EXCESS_PLAIN = {
+  '목': '일을 너무 벌여 뿌리가 얕아지기 쉽느니라',
+  '화': '한 번에 다 태우고 이내 식기 쉽느니라',
+  '토': '움직여야 할 때 버티고 앉기 쉽느니라',
+  '금': '끊지 않아도 될 것까지 끊기 쉽느니라',
+  '수': '어디에도 마음을 정하지 못하고 흘려버리기 쉽느니라'
+};
+const LOVE_PLAIN = {
+  '비겁': '사랑에서도 지기를 싫어하니, 대등함을 고집타 사이가 멀어지기 쉽느니라',
+  '식상': '마음을 말과 재주로 쏟으니, 솔직함이 무기이자 상처가 되느니라',
+  '재성': '사랑을 현실과 조건으로도 재니, 널리 만나되 깊이 정함이 늦으리라',
+  '관성': '어울리는 짝인지 먼저 보고 마음은 뒤늦게 여느니라',
+  '인성': '보살핌과 이해를 바라나, 기대는 것을 스스로 부끄러이 여기느니라'
+};
+const BOND_PLAIN = {
+  '비겁': '대등한 벗이 많이 모이나, 같은 것을 두고 다투기도 하느니라',
+  '식상': '거두고 베푸는 연이 많으니, 주는 쪽이 늘 앞서느니라',
+  '재성': '쓸모와 실리로 사람을 만나니, 연은 넓되 얕아지기 쉽느니라',
+  '관성': '책임과 예로 얽힌 연이 많으니, 편하기보다 어려운 사람이 많으리라',
+  '인성': '기대고 배우는 연이 많으니, 보살핌 받는 자리에 서기 쉽느니라'
+};
+const WEALTH_PLAIN = {
+  '비겁': '함께 벌어 나누는 재물이니, 벗과 동업의 득실이 크게 갈리느니라',
+  '식상': '재주와 궁리로 버는 재물이니, 남과 달라야 값이 붙느니라',
+  '재성': '굴리고 다스리는 재주가 있으니, 움직일수록 재물이 불어나느니라',
+  '관성': '자리와 이름에서 나는 재물이니, 이름값이 곧 재물이 되느니라',
+  '인성': '배움과 자격에서 나는 재물이니, 더디나 끊이지 않느니라'
+};
+
+function plainLines(v) {
+  const maxW = EL_WORD[v.maxEl], minW = EL_WORD[v.minEl];
+  const total = v.maxEl === v.minEl
+    ? '타고난 기운이 어느 한쪽으로 크게 치우치지 않고 고르니라.'
+    : `타고난 기운 가운데 ‘${maxW}(${v.maxEl})’이 가장 두터우니 ${v.maxCount}자요, ‘${minW}(${v.minEl})’은 ${v.minCount}자로 가장 옅으니라. ${EL_STRONG_PLAIN[v.maxEl]}, 그 대신 ${EL_LACK_PLAIN[v.minEl]}.`;
+  return {
+    total,
+    love: LOVE_PLAIN[TEN_GROUP[v.loveTen]] + '.',
+    bond: BOND_PLAIN[TEN_GROUP[v.bondTen]] + '.',
+    wealth: WEALTH_PLAIN[TEN_GROUP[v.wealthTen]] + '.',
+    warn: `‘${maxW}(${v.maxEl})’이 지나치게 두터운 것이 네 약점이니라. ${EL_EXCESS_PLAIN[v.maxEl]}. 바로 그 자리에서 가장 자주 넘어지느니라.`
+  };
+}
+
 export function build(data, tone) {
   const t = tone === 'refined' ? 'r' : 'g';
   const s = data.saju, n = data.natal, g = data.guardian;
@@ -325,8 +391,9 @@ export function build(data, tone) {
     warn: at(WARN[t], 59)(v)
   };
 
+  const plain = plainLines(v);
   return {
     greeting: GREETING[t](v),
-    sections: SECTIONS.map((sec) => ({ ...sec, paragraphs: byKey[sec.key] }))
+    sections: SECTIONS.map((sec) => ({ ...sec, paragraphs: byKey[sec.key], plain: plain[sec.key] }))
   };
 }

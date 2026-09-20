@@ -199,6 +199,12 @@ export default function LifeTab({ vm }) {
             </div>
             {o.open && (
               <div style={sx('padding:0 18px 20px')}>
+                {o.plain && (
+                  <div style={sx('margin:0 0 16px; padding:13px 15px; border-left:2px solid #C9A227; background:rgba(201,162,39,.07)')}>
+                    <div style={sx('font-family:\'Noto Sans KR\',sans-serif; font-size:10px; letter-spacing:.14em; color:#DCBB4A; margin-bottom:7px')}>쉬이 이르면</div>
+                    <div style={sx('font-family:\'Noto Sans KR\',sans-serif; font-size:12.5px; line-height:1.8; color:#D8D4C6; font-weight:300; text-wrap:pretty')}>{o.plain}</div>
+                  </div>
+                )}
                 <div style={sx('display:flex; flex-direction:column; gap:12px')}>
                   {o.paragraphs.map((para, pi) => (
                     <p key={pi} style={sx('margin:0; font-size:13.5px; line-height:2.05; color:#C4C8DA; font-weight:300; text-wrap:pretty')}>{para}</p>

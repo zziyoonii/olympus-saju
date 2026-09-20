@@ -327,7 +327,7 @@ export default function App() {
     return {
       label: s.label, sub: s.sub, god: s.god, color: s.color,
       icon: <Icon god={s.god} size={30} color={s.color} stroke={1.05} />,
-      paragraphs: s.paragraphs, evidence: ev,
+      paragraphs: s.paragraphs, plain: s.plain, evidence: ev,
       open: openOracle === i,
       caret: openOracle === i ? '180deg' : '0deg',
       headBg: openOracle === i ? 'rgba(255,255,255,.03)' : 'transparent',
