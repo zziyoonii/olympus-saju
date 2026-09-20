@@ -29,7 +29,7 @@ export function resetFontEmbedPrewarm() {
 // short grace period if not, and otherwise renders immediately without
 // embedded fonts (correct layout/colors/data, system fallback typeface)
 // rather than leaving the user staring at a spinner.
-export async function nodeToImageFile(node, filename) {
+export async function nodeToImageFile(node, filename, pixelRatio = 2) {
   if (!node) return null;
   let fontEmbedCSS = '';
   if (fontEmbedCSSPromise) {
@@ -37,15 +37,29 @@ export async function nodeToImageFile(node, filename) {
     catch (e) { fontEmbedCSS = ''; }
   }
   const opts = fontEmbedCSS
-    ? { pixelRatio: 2, cacheBust: true, fontEmbedCSS }
-    : { pixelRatio: 2, cacheBust: true, skipFonts: true };
-  const blob = await toBlob(node, opts);
+    ? { pixelRatio, cacheBust: true, fontEmbedCSS }
+    : { pixelRatio, cacheBust: true, skipFonts: true };
+  // html-to-image can return null (or a blank frame) on its very first run,
+  // before fonts/inline SVG icons have decoded — retry a few times with a
+  // short pause rather than surfacing a spurious "저장 실패".
+  let blob = null;
+  for (let attempt = 0; attempt < 3 && !blob; attempt++) {
+    try { blob = await toBlob(node, opts); } catch (e) { blob = null; }
+    if (!blob) await new Promise((r) => setTimeout(r, 160));
+  }
   if (!blob) return null;
   return new File([blob], filename, { type: 'image/png' });
 }
 
 export function canShareFiles(file) {
   return !!(navigator.canShare && navigator.canShare({ files: [file] }));
+}
+
+// Whether the OS share sheet (with the rendered image) is reachable at all —
+// true on iOS Safari 15+/Android Chrome (where "Instagram → 스토리" appears as
+// a target), false on most desktop browsers.
+export function canShareImages() {
+  return typeof navigator !== 'undefined' && !!navigator.share && !!navigator.canShare;
 }
 
 // Native share sheet when the platform supports sharing files (iOS Safari 15+,

@@ -67,16 +67,16 @@ const SIGN_TRAIT = {
 
 export const SECTIONS = [
   { key: 'total', label: '총운', sub: '타고난 팔자의 큰 줄기', god: '제우스', symbol: '번개', color: '#C9A227', free: true },
-  { key: 'love', label: '애정운', sub: '연(緣)의 결', god: '아프로디테', symbol: '조개', color: '#D98CA0' },
+  { key: 'love', label: '애정운', sub: '인연의 결', god: '아프로디테', symbol: '조개', color: '#D98CA0' },
   { key: 'bond', label: '인연·관계의 팔자', sub: '사람이 오고 가는 자리', god: '헤라', symbol: '왕관', color: '#9C7BC4' },
-  { key: 'wealth', label: '재물·성공운', sub: '재(財)가 머무는 자리', god: '헤르메스', symbol: '카두케우스', color: '#7FC6C0' },
+  { key: 'wealth', label: '재물·성공운', sub: '재물이 머무는 자리', god: '헤르메스', symbol: '카두케우스', color: '#7FC6C0' },
   { key: 'warn', label: '신의 경고', sub: '피해야 할 것', god: '아레스', symbol: '검', color: '#D9575F' }
 ];
 
 /* 문장 골격 변주: 같은 데이터라도 원국 해시로 다른 골격을 고른다 */
 const OPEN_TOTAL = {
   g: [
-    (v) => `${v.who}, 네 일간은 ${v.dayGanji}(${v.dayKr})이니라. 하늘이 너를 내릴 적에 ${eul(v.elNote[0])} 여덟 글자 중 ${v.maxCount}자에 심었노라.`,
+    (v) => `${v.who}, 네 일간은 ${v.dayGanji}이니라. 하늘이 너를 내릴 적에 ${eul(v.elNote[0])} 여덟 글자 중 ${v.maxCount}자에 심었노라.`,
     (v) => `여덟 글자를 세워 보니 ${v.dayGanji} 일간이로다. ${v.monthTerm} 절기의 기운을 받고 ${eul(v.elNote[0])} 안고 태어났느니라.`,
     (v) => `${v.who}의 기둥은 ${v.yearGanji}·${v.monthGanji}·${v.dayGanji}·${v.hourGanji}. 그 가운데 ${iga(v.maxEl)} ${v.maxCount}자로 가장 성하도다.`,
     (v) => `${v.who}, 네 사주는 ${v.strengthWord} 격이니라. 일간 ${v.dayGanji}${v.iRul} ${v.strengthNote}`
@@ -280,9 +280,10 @@ export function build(data, tone) {
 
   const v = {
     who: data.name ? data.name : '이름을 감춘 자',
-    dayGanji: s.pillars[2].ganji, dayKr: s.pillars[2].kr,
-    yearGanji: s.pillars[0].ganji, monthGanji: s.pillars[1].ganji, hourGanji: s.pillars[3].ganji,
-    iRul: jong(s.pillars[2].ganji) ? '이' : '가',
+    // 해석 본문에는 간지를 한글 독음으로 노출한다(한자 병기 없이). 계산은 s.pillars[*].ganji(한자)로 유지.
+    dayGanji: s.pillars[2].kr,
+    yearGanji: s.pillars[0].kr, monthGanji: s.pillars[1].kr, hourGanji: s.pillars[3].kr,
+    iRul: jong(s.pillars[2].kr) ? '이' : '가',
     maxEl: EL[s.maxEl], minEl: EL[s.minEl],
     maxCount: s.elements[s.maxEl], minCount: s.elements[s.minEl],
     elNote: ELEMENT_NOTE[EL[s.maxEl]],
@@ -290,7 +291,7 @@ export function build(data, tone) {
     excessRisk: EXCESS_RISK[EL[s.maxEl]],
     monthTerm: s.termName, animal: s.animal,
     guardian: g.god, sign: g.sign,
-    strengthWord: strong ? '신강(身强)' : balanced ? '중화(中和)' : '신약(身弱)',
+    strengthWord: strong ? '신강' : balanced ? '중화' : '신약',
     strengthNote: strong
       ? '뿌리가 굵으니 남의 힘을 빌리지 않고도 서지만, 굽히는 법을 늦게 배운다.'
       : balanced

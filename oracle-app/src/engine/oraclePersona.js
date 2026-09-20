@@ -2,7 +2,6 @@
    축을 하나씩 읽지 않고, 축이 부딪히는 자리를 찾아 그 사람을 한 문장으로 만든다. */
 import { SECTIONS } from './oracleCopy.js';
 
-const EL_HANJA = ['木', '火', '土', '金', '水'];
 const EL = ['목', '화', '토', '금', '수'];
 const GROUP = {
   '비견': '비겁', '겁재': '비겁', '식신': '식상', '상관': '식상',
@@ -177,7 +176,7 @@ const PATTERNS = [
     when: (s) => s.zeroEls >= 2,
     g: '그대의 팔자는 고르지 않고 한쪽으로 쏠렸느니라.',
     r: '팔자가 고르지 않고 한쪽으로 쏠려 있다.',
-    why: (s, saju) => `오행 다섯 중 ${s.zeroEls}가지가 한 자리도 없다. ${EL_HANJA[saju.maxEl]} ${EL[saju.maxEl]}만 두텁다.`,
+    why: (s, saju) => `오행 다섯 중 ${s.zeroEls}가지가 한 자리도 없다. ${EL[saju.maxEl]}만 두텁다.`,
     more: '고르지 않은 팔자는 평범하게 살기 어렵고, 대신 한 가지로는 멀리 간다. 빈 기운을 채우려 애쓰기보다 쏠린 쪽을 끝까지 미는 편이 이 원국에는 맞다.'
   },
   {
@@ -261,7 +260,7 @@ export function read(saju, natal, daeun, birthYear, tone) {
   const top = hits[0];
   const rest = hits.slice(1, 3);
 
-  const strengthLabel = s.strength === 'strong' ? '신강 身强' : s.strength === 'weak' ? '신약 身弱' : '중화 中和';
+  const strengthLabel = s.strength === 'strong' ? '신강' : s.strength === 'weak' ? '신약' : '중화';
   const strengthNote = s.strength === 'strong'
     ? `일간을 돕는 자리가 ${s.score}, 덜어내는 자리가 ${s.drain}`
     : s.strength === 'weak'

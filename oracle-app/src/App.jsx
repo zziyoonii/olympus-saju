@@ -18,6 +18,13 @@ const EL_COLOR = { '목': '#6FA37A', '화': '#C2554A', '토': '#B39158', '금': 
 const EL_HANJA = { '목': '木', '화': '火', '토': '土', '금': '金', '수': '水' };
 const ELS = ['목', '화', '토', '금', '수'];
 
+// Small wordmark printed on the share cards. Defaults to the live domain so
+// anyone who sees a shared Story can find the site; replace with your own
+// brand string (e.g. 'SINTAK.KR') once you have a custom domain.
+const SHARE_BRAND = (typeof window !== 'undefined' && window.location.hostname)
+  ? window.location.hostname.replace(/^www\./, '').toUpperCase()
+  : 'ORACLE';
+
 const PHRASES = [
   ['올림포스에 전갈이 도착했습니다…', '여덟 글자를 세우는 중'],
   ['제우스가 번개를 내려놓고 자리에 앉았습니다.', '절기와 간지를 판정하는 중'],
@@ -311,9 +318,9 @@ export default function App() {
   })) : [];
 
   const oracles = cpy ? cpy.sections.map((s, i) => {
-    const ev = i === 0 ? '일간 ' + r.saju.pillars[2].ganji + ' · ' + ELS[r.saju.maxEl] + ' ' + r.saju.elements[r.saju.maxEl] + '자 · 절기 ' + r.saju.termName
+    const ev = i === 0 ? '일간 ' + r.saju.pillars[2].kr + ' · ' + ELS[r.saju.maxEl] + ' ' + r.saju.elements[r.saju.maxEl] + '자 · 절기 ' + r.saju.termName
       : i === 1 ? '금성 ' + (r.natal[3] || {}).sign + ' · 원국 재성·식상 판정'
-        : i === 2 ? '달 ' + (r.natal[1] || {}).sign + ' · 월지 ' + r.saju.pillars[1].branchHanja
+        : i === 2 ? '달 ' + (r.natal[1] || {}).sign + ' · 월지 ' + r.saju.pillars[1].branchKr
           : i === 3 ? '수성 ' + (r.natal[2] || {}).sign + ' · 목성 ' + (r.natal[5] || {}).sign
             : '화성 ' + (r.natal[4] || {}).sign + ' · ' + ELS[r.saju.maxEl] + ' 과다';
     return {
@@ -448,9 +455,10 @@ export default function App() {
 
     pillars, elements, natal: r ? r.natal : [], oracles,
     correctionLabel: r ? (r.saju.correctionMin ? '진태양시 ' + r.saju.hourLabel + ' (' + r.saju.correctionMin + '분)' : '표준시 그대로') : '',
-    dayStemLabel: r ? r.saju.dayStemHanja + ' ' + r.saju.dayStemKr : '',
-    dayGanjiLabel: r ? r.saju.pillars[2].ganji : '',
-    maxElLabel: r ? EL_HANJA[ELS[r.saju.maxEl]] + ' ' + ELS[r.saju.maxEl] : '',
+    dayStemLabel: r ? r.saju.dayStemKr : '',
+    dayGanjiLabel: r ? r.saju.pillars[2].kr : '',
+    maxElLabel: r ? ELS[r.saju.maxEl] : '',
+    shareBrand: SHARE_BRAND,
 
     openShare: () => { setShare(true); setShareMode('reading'); setShareTab('story'); },
     closeShare: () => setShare(false),

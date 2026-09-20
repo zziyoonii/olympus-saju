@@ -1,46 +1,67 @@
 import { useEffect, useRef, useState } from 'react';
 import { sx } from '../utils/sx.js';
 import Hoverable from './Hoverable.jsx';
-import { nodeToImageFile, shareFile, downloadFile, prewarmFontEmbed, resetFontEmbedPrewarm } from '../utils/shareImage.js';
+import { nodeToImageFile, shareFile, downloadFile, canShareImages, prewarmFontEmbed, resetFontEmbedPrewarm } from '../utils/shareImage.js';
 
 export default function ShareOverlay({ vm }) {
   const cardRef = useRef(null);
-  const [shareState, setShareState] = useState('idle'); // idle | working | saved | failed
+  const [shareState, setShareState] = useState('idle'); // idle | working | shared | saved | failed
+  // When the OS share sheet isn't available (mostly desktop, some in-app
+  // browsers), we render the finished PNG right here so the user can save it
+  // by long-press / right-click — this is the path that reliably works on
+  // iOS Safari, where a script-triggered download is silently ignored.
+  const [previewUrl, setPreviewUrl] = useState(null);
+
+  const canShare = canShareImages();
 
   // Start fetching the card's web fonts as soon as it's on screen, well
-  // before the user taps "공유하기" — see shareImage.js for why.
+  // before the user taps the share button — see shareImage.js for why. Also
+  // drop any previous inline preview when the selected card changes.
   useEffect(() => {
     resetFontEmbedPrewarm();
     prewarmFontEmbed(cardRef.current);
+    setShareState('idle');
+    setPreviewUrl((old) => { if (old) URL.revokeObjectURL(old); return null; });
   }, [vm.isStory, vm.isCompatStory, vm.isCompatInvite]);
+
+  useEffect(() => () => { if (previewUrl) URL.revokeObjectURL(previewUrl); }, [previewUrl]);
 
   const handleShare = async () => {
     setShareState('working');
     try {
-      const file = await nodeToImageFile(cardRef.current, 'oracle-of-the-gods.png');
-      if (!file) { setShareState('failed'); setTimeout(() => setShareState('idle'), 2400); return; }
+      // Export the story cards at 3× (1080×1920) so they stay crisp as a
+      // full-screen Instagram Story; the small invite card only needs 2×.
+      const pixelRatio = vm.isCompatInvite ? 2 : 3;
+      const file = await nodeToImageFile(cardRef.current, 'sintak-oracle.png', pixelRatio);
+      if (!file) { setShareState('failed'); setTimeout(() => setShareState('idle'), 2600); return; }
 
+      // Mobile: hand the PNG to the OS share sheet, where "Instagram → 스토리"
+      // is one of the targets. (A web app cannot post to a Story directly —
+      // Instagram exposes no web API for it — so the share sheet is the real,
+      // supported one-tap path.)
       const result = await shareFile(file, { title: '신들의 신탁', text: vm.shareText });
-      if (result === 'shared') { setShareState('idle'); return; }
+      if (result === 'shared') { vm.copyLink(); setShareState('shared'); setTimeout(() => setShareState('idle'), 2600); return; }
       if (result === 'cancelled') { setShareState('idle'); return; }
 
-      // No native share sheet (mostly desktop) — download the image directly
-      // and copy the invite text so it can be pasted wherever the image goes.
+      // No share sheet (mostly desktop): show the image inline so it can be
+      // saved manually, trigger a direct download too, and copy the caption.
+      const url = URL.createObjectURL(file);
+      setPreviewUrl((old) => { if (old) URL.revokeObjectURL(old); return url; });
       downloadFile(file);
       vm.copyLink();
       setShareState('saved');
-      setTimeout(() => setShareState('idle'), 2800);
     } catch (e) {
       setShareState('failed');
-      setTimeout(() => setShareState('idle'), 2400);
+      setTimeout(() => setShareState('idle'), 2600);
     }
   };
 
   const shareLabel = {
-    idle: '공유하기',
+    idle: canShare ? '인스타그램 스토리로 공유' : '스토리 이미지 저장',
     working: '카드를 만드는 중…',
+    shared: '공유창을 열었다 · 초대글도 복사됨',
     saved: '이미지 저장됨 · 초대글도 복사됨',
-    failed: '공유에 실패했다 · 다시 시도'
+    failed: '실패했다 · 다시 시도'
   }[shareState];
 
   return (
@@ -83,7 +104,7 @@ export default function ShareOverlay({ vm }) {
                 </div>
                 <div style={sx('display:flex; justify-content:space-between; align-items:center; margin-top:16px; font-family:\'Noto Sans KR\',sans-serif; font-size:10px; color:#8A90AC')}>
                   <div>일주 {vm.dayGanjiLabel}</div>
-                  <div style={sx('font-family:\'Cinzel\',serif; letter-spacing:.16em; color:#B39A55')}>ORACLE.KR</div>
+                  <div style={sx('font-family:\'Cinzel\',serif; letter-spacing:.16em; color:#B39A55')}>{vm.shareBrand}</div>
                 </div>
               </div>
             </div>
@@ -124,7 +145,7 @@ export default function ShareOverlay({ vm }) {
                 </div>
                 <div style={sx('display:flex; justify-content:space-between; align-items:center; margin-top:13px; font-family:\'Noto Sans KR\',sans-serif; font-size:10px; color:#7B819C')}>
                   <div>주관 · {vm.compatGod}</div>
-                  <div style={sx('font-family:\'Cinzel\',serif; letter-spacing:.16em; color:#B39A55')}>ORACLE.KR</div>
+                  <div style={sx('font-family:\'Cinzel\',serif; letter-spacing:.16em; color:#B39A55')}>{vm.shareBrand}</div>
                 </div>
               </div>
             </div>
@@ -153,6 +174,12 @@ export default function ShareOverlay({ vm }) {
       </div>
 
       <div style={sx('flex:none; padding:0 22px 22px')}>
+        {previewUrl && (
+          <div style={sx('margin-bottom:12px; padding:12px; border:1px solid rgba(201,162,39,.35); background:rgba(201,162,39,.06); display:flex; gap:12px; align-items:center')}>
+            <img src={previewUrl} alt="공유 카드" style={{ flex: 'none', width: '68px', height: 'auto', borderRadius: '2px', boxShadow: '0 6px 18px -8px rgba(0,0,0,.8)' }} />
+            <div style={sx('font-family:\'Noto Sans KR\',sans-serif; font-size:11px; line-height:1.7; color:#DCBB4A')}>이미지가 저장됐다. 저장이 안 되면 위 카드를 <b>길게 눌러</b>(데스크톱은 우클릭) 저장한 뒤, 인스타그램 스토리에 올리면 된다.</div>
+          </div>
+        )}
         <div style={sx('display:flex; align-items:center; gap:10px; padding:11px 13px; border:1px solid rgba(255,255,255,.09); background:rgba(255,255,255,.02); margin-bottom:12px')}>
           <div style={sx('flex:1; min-width:0; font-family:\'Cinzel\',serif; font-size:11.5px; letter-spacing:.04em; color:#9BA0BA; overflow:hidden; text-overflow:ellipsis; white-space:nowrap')}>{vm.shareLinkText}</div>
           <Hoverable as="button" onClick={vm.copyLink}
@@ -163,7 +190,7 @@ export default function ShareOverlay({ vm }) {
           style={sx(`width:100%; min-height:52px; background:linear-gradient(#C9A227,#A6821A); border:none; border-radius:2px; color:#14100A; font-family:'Noto Serif KR',serif; font-size:14.5px; font-weight:600; letter-spacing:.1em; cursor:${shareState === 'working' ? 'default' : 'pointer'}; opacity:${shareState === 'working' ? 0.75 : 1}`)}
           hoverStyle={shareState === 'working' ? {} : { filter: 'brightness(1.08)' }}>{shareLabel}</Hoverable>
         <div style={sx('font-family:\'Noto Sans KR\',sans-serif; font-size:10px; line-height:1.6; color:#7B819C; text-align:center; margin-top:10px')}>
-          기기의 공유창이 열리면 인스타그램·카카오톡·사진 앱 등 원하는 곳을 바로 고르라. 지원하지 않는 기기에서는 이미지가 저장되고 초대글이 복사된다.
+          휴대폰에서는 공유창의 <b>인스타그램 → 스토리</b>를 고르면 이 카드가 그대로 올라간다(카카오톡·사진 앱도 같은 창에서 고를 수 있다). 공유창이 없는 기기에서는 이미지가 저장되고 초대글이 복사된다.
         </div>
         <button onClick={vm.closeShare} style={sx('width:100%; min-height:46px; margin-top:8px; background:none; border:none; color:#8A90AC; font-family:\'Noto Sans KR\',sans-serif; font-size:12px; cursor:pointer')}>닫기</button>
       </div>
